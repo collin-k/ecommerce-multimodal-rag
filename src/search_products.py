@@ -30,7 +30,6 @@ scores, indices = index.search(query_embedding, 5)
 
 print("Query:", query)
 print()
-
 for rank, idx in enumerate(indices[0], start=1):
     print(f"Result {rank}:")
     print(df.iloc[idx]["Product Name"])
