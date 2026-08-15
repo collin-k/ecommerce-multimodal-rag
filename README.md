@@ -36,6 +36,7 @@ Run from the repo root (or adjust paths):
 - `src/clip_embeddings.py` — build text embeddings
 - `src/build_faiss.py` — build FAISS index
 - `src/search_products.py` — text retrieval demo
+- `python -m src.evaluate_retrieval --sample-size 100 --top-k 10` — Recall@1/5/10
 - `src/download_images.py` / `src/image_embeddings.py` — image pilot (10 products)
 
 Project scope and branch plan: [`docs/ASSIGNMENT_PLAN.md`](docs/ASSIGNMENT_PLAN.md), [`project_instructions.md`](project_instructions.md).
