@@ -216,3 +216,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------------------
+# Project artifacts (ecommerce-multimodal-rag)
+# ---------------------------------------------------------------------------
+# Keep data/processed/clean_products.csv tracked for demos.
+data/raw/
+data/processed/*.npy
+data/processed/*.index
+data/images/
+
+# Local notebooks checkpoints (also covered globally above)
+notebooks/.ipynb_checkpoints/
