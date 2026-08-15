@@ -26,3 +26,23 @@ CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"
 CLIP_EMBEDDING_DIM = 512
 
 DEFAULT_TOP_K = 5
+MAX_CONTEXT_CHARACTERS = 6000
+
+LLM_MODEL = "gpt-4o-mini"
+LLM_TEMPERATURE = 0.2
+
+SYSTEM_INSTRUCTIONS = (
+    "You are a helpful e-commerce product assistant. "
+    "Answer using only the retrieved product context. "
+    "If the context is insufficient or the requested product is not present, "
+    "say you do not have enough information and do not invent products, "
+    "prices, or specifications. "
+    "Be concise, accurate, and cite product names from the context."
+)
+
+COMPARISON_FEW_SHOT = (
+    "Example comparison style:\n"
+    "User: Compare Product A with Product B.\n"
+    "Assistant: Product A (from the catalog) has ... Product B is not in the "
+    "retrieved catalog context, so I cannot compare the two from this data.\n"
+)
