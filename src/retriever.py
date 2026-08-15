@@ -21,8 +21,6 @@ from .config import (
     PRODUCTS_CSV,
 )
 
-import faiss
-
 
 @dataclass(frozen=True)
 class RetrievedProduct:
@@ -59,7 +57,11 @@ class ProductRetriever:
         encoder : ClipEncoder or None, optional
             Shared CLIP encoder. Created on demand when omitted.
         """
+        # Load CLIP before importing FAISS. Reversing that order can segfault
+        # on some macOS / conda OpenMP stacks.
         self.encoder = encoder or ClipEncoder()
+        import faiss
+
         self.products = pd.read_csv(products_csv)
         self.index = faiss.read_index(str(faiss_index_path))
 
