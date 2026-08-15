@@ -1,23 +1,20 @@
-import pandas as pd
-import requests
-from PIL import Image
-from io import BytesIO
-import os
+"""
+Legacy entry point for downloading a small product-image sample.
 
-df = pd.read_csv("data/processed/clean_products.csv")
+Prefer ``python -m src.image_downloader``.
+"""
 
-os.makedirs("data/images", exist_ok=True)
+from .image_downloader import download_product_images
 
-for i in range(10):
-    image_url = df.iloc[i]["Image"]
 
-    try:
-        response = requests.get(image_url, timeout=10)
-        image = Image.open(BytesIO(response.content)).convert("RGB")
+def main() -> None:
+    """Download the first 10 product images (original pilot behavior)."""
+    saved, skipped, failed = download_product_images(limit=10)
+    print(
+        f"Done. saved_or_present={len(saved)} skipped_existing={skipped} "
+        f"failed={failed}"
+    )
 
-        image.save(f"data/images/product_{i}.jpg")
 
-        print(f"Saved product_{i}.jpg")
-
-    except Exception as e:
-        print(f"Failed product {i}: {e}")
+if __name__ == "__main__":
+    main()
