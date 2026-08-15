@@ -1,0 +1,13 @@
+# Core ML / retrieval
+torch>=2.2
+transformers>=4.40
+faiss-cpu>=1.8
+pandas>=2.0
+numpy>=1.26
+Pillow>=10.0
+requests>=2.31
+
+# RAG + UI
+python-dotenv>=1.0
+openai>=1.30
+streamlit>=1.32
