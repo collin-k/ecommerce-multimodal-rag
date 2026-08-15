@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-08-15T20:08:49.963045+00:00",
+  "limitations": "Limitations: text self-retrieval is an optimistic upper bound because the query is the product name itself. Image evaluation uses locally downloaded files (often the first N catalog rows), so the image set may be biased. Neither protocol uses hand-labeled natural-language queries.",
+  "text": {
+    "protocol": "text_self_retrieval",
+    "n_queries": 100,
+    "top_k": 10,
+    "seed": 42,
+    "recall": {
+      "1": 0.93,
+      "5": 0.99,
+      "10": 0.99
+    }
+  },
+  "image": {
+    "protocol": "image_to_product",
+    "n_queries": 100,
+    "top_k": 10,
+    "recall": {
+      "1": 0.33,
+      "5": 0.57,
+      "10": 0.64
+    }
+  }
+}
