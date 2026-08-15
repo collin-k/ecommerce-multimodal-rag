@@ -1,37 +1,58 @@
-import pandas as pd
-import numpy as np
-import faiss
-import torch
-from transformers import CLIPModel, CLIPProcessor
+"""
+CLI for text or image product retrieval against the FAISS catalog index.
+"""
 
-df = pd.read_csv("data/processed/clean_products.csv")
+from __future__ import annotations
 
-index = faiss.read_index("data/processed/products_faiss.index")
+import argparse
+from pathlib import Path
 
-model_name = "openai/clip-vit-base-patch32"
-model = CLIPModel.from_pretrained(model_name)
-processor = CLIPProcessor.from_pretrained(model_name)
+from .config import DEFAULT_TOP_K, IMAGES_DIR
+from .retriever import ProductRetriever
 
-query = "500 piece jigsaw puzzle"
 
-inputs = processor(
-    text=[query],
-    return_tensors="pt",
-    padding=True,
-    truncation=True
-)
+def main() -> None:
+    """Run a one-off text or image retrieval query."""
+    parser = argparse.ArgumentParser(description="Search the product catalog.")
+    parser.add_argument("--query", type=str, default="", help="Text query")
+    parser.add_argument(
+        "--image",
+        type=str,
+        default="",
+        help="Path to a query image",
+    )
+    parser.add_argument("--top-k", type=int, default=DEFAULT_TOP_K)
+    args = parser.parse_args()
 
-with torch.no_grad():
-    query_embedding = model.get_text_features(**inputs).cpu().numpy().astype("float32")
+    retriever = ProductRetriever()
 
-faiss.normalize_L2(query_embedding)
+    if args.image:
+        image_path = Path(args.image)
+        if not image_path.is_file():
+            # Allow paths relative to the canonical images directory.
+            fallback = IMAGES_DIR / args.image
+            image_path = fallback if fallback.is_file() else image_path
 
-scores, indices = index.search(query_embedding, 5)
+        if not image_path.is_file():
+            raise FileNotFoundError(f"Image not found: {args.image}")
 
-print("Query:", query)
-print()
-for rank, idx in enumerate(indices[0], start=1):
-    print(f"Result {rank}:")
-    print(df.iloc[idx]["Product Name"])
-    print(df.iloc[idx]["combined_text"][:500])
-    print("-" * 80)
+        results = retriever.search_image(image_path, top_k=args.top_k)
+        print(f"Image query: {image_path}")
+    elif args.query.strip():
+        results = retriever.search_text(args.query, top_k=args.top_k)
+        print(f"Text query: {args.query}")
+    else:
+        default_query = "500 piece jigsaw puzzle"
+        results = retriever.search_text(default_query, top_k=args.top_k)
+        print(f"Text query: {default_query}")
+
+    print()
+    for product in results:
+        print(f"Result {product.rank} (score={product.score:.3f}):")
+        print(product.product_name)
+        print(product.combined_text[:500])
+        print("-" * 80)
+
+
+if __name__ == "__main__":
+    main()
