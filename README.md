@@ -29,13 +29,28 @@ cp .env.example .env
 
 If embeddings or the FAISS index are missing locally, regenerate them from the clean CSV before running search.
 
-## Current scripts (baseline)
+## Run the chatbot
 
-Run from the repo root (or adjust paths):
+From the repository root:
 
-- `src/clip_embeddings.py` — build text embeddings
-- `src/build_faiss.py` — build FAISS index
-- `src/search_products.py` — text retrieval demo
-- `src/download_images.py` / `src/image_embeddings.py` — image pilot (10 products)
+```bash
+streamlit run src/app.py
+```
+
+Modes:
+
+- **Text question** — natural-language Q&A over retrieved catalog rows (needs `.env`)
+- **Image question** — upload a product photo to identify / explain it (needs `.env`)
+- **Retrieve only** — CLIP + FAISS search without calling the LLM
+
+## Other scripts
+
+Run from the repo root:
+
+- `python -m src.search_products --query "500 piece jigsaw puzzle"`
+- `python -m src.search_products --image data/images/product_0.jpg`
+- `python -m src.image_downloader --limit 100`
+- `python -m src.rag --question "What are the features of the DB Longboards CoreFlex Crossbow?"`
+- `src/clip_embeddings.py` / `src/build_faiss.py` — rebuild embeddings and the FAISS index
 
 Project scope and branch plan: [`docs/ASSIGNMENT_PLAN.md`](docs/ASSIGNMENT_PLAN.md), [`project_instructions.md`](project_instructions.md).
