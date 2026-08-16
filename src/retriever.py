@@ -39,6 +39,7 @@ def strip_amazon_boilerplate(text: str) -> str:
     cleaned = re.sub(r"^\s*\|\s*", "", cleaned.strip())
     return re.sub(r"[ \t]{2,}", " ", cleaned).strip()
 
+
 # Import torch-backed CLIP before FAISS. Loading FAISS first can segfault on some
 # macOS / conda OpenMP stacks when CLIP is initialized afterward.
 try:
@@ -94,8 +95,6 @@ class ProductRetriever:
         encoder : ClipEncoder or None, optional
             Shared CLIP encoder. Created on demand when omitted.
         """
-        # Load CLIP before importing FAISS. Reversing that order can segfault
-        # on some macOS / conda OpenMP stacks.
         self.encoder = encoder or ClipEncoder()
         import faiss
 

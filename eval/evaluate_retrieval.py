@@ -13,8 +13,8 @@ labeled catalog rows are retrieved.
 
 Run from the repository root:
 
-    python -m src.evaluate_retrieval --sample-size 100 --top-k 10
-    python -m src.evaluate_retrieval --labeled-only --top-k 10
+    python -m eval.evaluate_retrieval --sample-size 100 --top-k 10
+    python -m eval.evaluate_retrieval --labeled-only --top-k 10
 """
 
 from __future__ import annotations
@@ -27,11 +27,10 @@ from pathlib import Path
 from typing import Dict, List, Sequence
 
 # Import CLIP-backed retriever before NumPy/FAISS-heavy use on macOS conda.
-from .retriever import ProductRetriever
-from .config import EVAL_QUERIES_PATH, IMAGES_DIR, PROCESSED_DIR, PROJECT_ROOT
-from .query_rewriter import rewrite_clip_query
+from src.retriever import ProductRetriever
+from src.config import EVAL_QUERIES_PATH, EVAL_RECALL_PATH, IMAGES_DIR, PROJECT_ROOT
+from src.query_rewriter import rewrite_clip_query
 
-EVAL_RESULTS_PATH = PROCESSED_DIR / "eval_recall.json"
 RECALL_CUTOFFS = (1, 5, 10)
 
 LIMITATIONS = (
@@ -142,7 +141,7 @@ def load_eval_queries(path: Path = EVAL_QUERIES_PATH) -> List[Dict[str, object]]
     if not path.is_file():
         raise FileNotFoundError(
             f"Labeled eval queries not found: {path}. "
-            "Expected data/processed/eval_queries.json."
+            f"Set EVAL_QUERIES_PATH or pass --eval-queries."
         )
 
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -517,7 +516,7 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=str,
-        default=str(EVAL_RESULTS_PATH),
+        default=str(EVAL_RECALL_PATH),
         help="JSON path for saved metrics.",
     )
     args = parser.parse_args()
@@ -527,7 +526,6 @@ def main() -> None:
             f"--top-k must be at least {max(RECALL_CUTOFFS)} to report Recall@10."
         )
 
-    print("Loading retriever...")
     retriever = ProductRetriever()
     output_path = Path(args.output)
     payload: Dict[str, object] = {}
@@ -539,7 +537,6 @@ def main() -> None:
     payload["limitations"] = LIMITATIONS
 
     if not args.labeled_only:
-        print(f"Evaluating text self-retrieval on {args.sample_size} products...")
         text_result = evaluate_text_self_retrieval(
             retriever,
             sample_size=args.sample_size,
@@ -551,9 +548,6 @@ def main() -> None:
 
         image_paths = list(IMAGES_DIR.glob("product_*.jpg"))
         if image_paths:
-            print(
-                f"Evaluating image-to-product retrieval on {len(image_paths)} images..."
-            )
             image_result = evaluate_image_to_product(
                 retriever,
                 top_k=args.top_k,
@@ -565,7 +559,6 @@ def main() -> None:
 
     if not args.skip_labeled:
         queries_path = Path(args.eval_queries)
-        print(f"Evaluating labeled NL queries from {queries_path}...")
         labeled_result = evaluate_labeled_text_retrieval(
             retriever,
             queries_path=queries_path,

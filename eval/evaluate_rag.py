@@ -7,8 +7,8 @@ fields for a human checklist (relevant / grounded / complete / refused).
 
 Run from the repository root:
 
-    python -m src.evaluate_rag --top-k 5
-    python -m src.evaluate_rag --no-llm
+    python -m eval.evaluate_rag --top-k 5
+    python -m eval.evaluate_rag --no-llm
 """
 
 from __future__ import annotations
@@ -21,15 +21,15 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
 # Import CLIP-backed retriever before FAISS / OpenAI client setup.
-from .retriever import ProductRetriever, RetrievedProduct
-from .config import (
+from src.retriever import ProductRetriever, RetrievedProduct
+from src.config import (
     DEFAULT_TOP_K,
     EVAL_QUERIES_PATH,
     EVAL_RAG_PATH,
     PROJECT_ROOT,
 )
 from .evaluate_retrieval import load_eval_queries
-from .rag import ProductRagAssistant, require_api_key
+from src.rag import ProductRagAssistant, require_api_key
 
 REFUSAL_PHRASES = (
     "do not have enough",
@@ -634,20 +634,16 @@ def evaluate_rag(
     if max_queries is not None:
         queries = queries[: max(0, max_queries)]
 
-    print("Loading retriever...")
     retriever = ProductRetriever()
     assistant: Optional[ProductRagAssistant] = None
     model_name = None
     if use_llm:
         require_api_key()
-        print("Loading RAG assistant...")
         assistant = ProductRagAssistant(retriever=retriever)
         model_name = assistant.model_name
 
     rows: List[Dict[str, Any]] = []
     for index, query in enumerate(queries, start=1):
-        query_id = query.get("id", index)
-        print(f"[{index}/{len(queries)}] {query_id}")
         try:
             result = _answer_query(
                 assistant,
@@ -657,7 +653,7 @@ def evaluate_rag(
                 use_llm=use_llm,
             )
         except FileNotFoundError as error:
-            print(f"  skipped: {error}")
+            print(f"Skipped {query.get('id', index)}: {error}")
             continue
         rows.append(evaluate_one_query(query, result))
 
@@ -667,7 +663,7 @@ def evaluate_rag(
         "model": model_name,
         "top_k": top_k,
         "use_llm": use_llm,
-        "queries_path": "data/processed/eval_queries.json",
+        "queries_path": str(queries_path),
         "limitations": LIMITATIONS,
         "metrics": summarize_scorecard(rows),
         "queries": rows,

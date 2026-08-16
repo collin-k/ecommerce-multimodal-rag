@@ -68,9 +68,7 @@ def embed_downloaded_images(
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     np.save(output_path, embeddings)
-
-    print(f"Saved {len(image_paths)} image embeddings to {output_path}")
-    print("Shape:", embeddings.shape)
+    print(f"Saved {embeddings.shape} embeddings to {output_path}")
     return embeddings, row_indices
 
 

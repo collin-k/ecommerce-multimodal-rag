@@ -28,11 +28,7 @@ for start in range(0, len(df), batch_size):
 
     all_embeddings.append(embeddings.cpu().numpy())
 
-    print(f"Processed {min(end, len(df))} / {len(df)} products")
-
 text_embeddings = np.vstack(all_embeddings)
 
 np.save("data/processed/text_embeddings.npy", text_embeddings)
-
-print("Saved new CLIP embeddings successfully!")
-print("Final shape:", text_embeddings.shape)
+print(f"Saved {text_embeddings.shape} embeddings to data/processed/text_embeddings.npy")
