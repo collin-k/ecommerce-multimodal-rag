@@ -40,6 +40,7 @@ Catalog **text** embeddings are stored in a local FAISS `IndexFlatIP` (`data/pro
 
 `ProductRagAssistant` retrieves top-k products, truncates context to 6,000 characters, and calls an OpenAI-compatible chat API (`gpt-4o-mini` by default, temperature 0.2).
 
+- **Query rewrite (CLIP only):** shopper questions are simplified to a product-centric string before embedding (`src/query_rewriter.py`). The original question is unchanged for the LLM.
 - **Zero-shot system prompt:** answer only from retrieved context; admit gaps; do not invent products or prices.
 - **Few-shot (comparisons):** if the question contains “compare” / “versus”, a short comparison template is appended so the model cites what is in-catalog and refuses what is not.
 - **Open-source LLM path:** set `OPENAI_BASE_URL` and `LLM_MODEL` to a Groq, Together, or Ollama endpoint (e.g. Llama 3.1) to match the course’s open-source example without changing code.
@@ -78,9 +79,11 @@ User (text and/or image)
 | `src/clip_encoder.py` | Shared CLIP encode for text and images |
 | `src/retriever.py` | Load catalog + FAISS; `search_text` / `search_image` |
 | `src/image_downloader.py` | Robust JPEG download with retries |
+| `src/query_rewriter.py` | CLIP query rewrite (product name / attributes) |
 | `src/rag.py` | Grounded generation + CLI |
 | `src/app.py` | Streamlit chatbot |
-| `src/evaluate_retrieval.py` | Recall@1/5/10 |
+| `src/evaluate_retrieval.py` | Recall@1/5/10 (self, image, labeled NL) |
+| `src/evaluate_rag.py` | RAG scorecard: retrieval hit, grounded, OOD refusal |
 
 On some macOS/conda OpenMP stacks, importing FAISS before loading CLIP segfaults. The retriever constructs CLIP first, then imports FAISS. Evaluation searches **one query vector at a time** for the same reason (batch `index.search` was unstable).
 
@@ -88,25 +91,48 @@ On some macOS/conda OpenMP stacks, importing FAISS before loading CLIP segfaults
 
 ### 5.1 Retrieval metrics
 
-Protocol (seed 42, top-k = 10):
+Protocol (seed 42, top-k = 10 unless noted):
 
 - **Text self-retrieval:** sample 100 products; query = `Product Name`; relevant item = same row. Optimistic upper bound.
 - **Image→product:** 100 local files `product_{i}.jpg`; relevant item = row `i`. CLIP image query vs text index.
+- **Labeled NL text:** 25 hand-written questions in `data/processed/eval_queries.json` (not exact product names). Out-of-catalog items are excluded because there is no gold row. Comparison questions with two gold products score the fraction of those products in the top-k.
 
 | Protocol | Queries | Recall@1 | Recall@5 | Recall@10 |
 |----------|---------|----------|----------|-----------|
 | Text self-retrieval | 100 | 0.930 | 0.990 | 0.990 |
 | Image→product | 100 | 0.330 | 0.570 | 0.640 |
+| Labeled NL (raw question) | 25 | 0.620 | 1.000 | 1.000 |
+| Labeled NL (CLIP query rewrite) | 25 | **0.820** | 1.000 | 1.000 |
 
-Text names almost always retrieve the same row in the top 5. Image identification is weaker, as expected when matching a photo to a **text** embedding of a noisy Amazon title/description. Recall@10 of 0.64 is still usable for RAG: the LLM sees several visually related neighbors.
+Text names almost always retrieve the same row in the top 5. Embedding the full question (“What are the features of …”) drops rank-1 from 0.93 to 0.62. Stripping the question template before CLIP recovers rank-1 to **0.82** without changing Recall@5/10 (already 1.0 on this set). Image identification is weaker, as expected when matching a photo to a **text** embedding of a noisy Amazon title/description. Recall@10 of 0.64 is still usable for RAG: the LLM sees several visually related neighbors.
+
+By intent after rewrite: features R@1 0.812 (n=16), show-image R@1 1.000 (n=4), compare R@1 0.700 (n=5; two gold products cannot both be rank-1).
 
 Reproduce:
 
 ```bash
 python -m src.evaluate_retrieval --sample-size 100 --top-k 10
+python -m src.evaluate_retrieval --labeled-only --top-k 10
 ```
 
-### 5.2 Example interactions
+### 5.2 RAG scorecard
+
+`src/evaluate_rag.py` runs the assistant on all 41 labeled queries (top-k = 5, matching the app) and scores retrieval hit, a conservative groundedness heuristic, and out-of-catalog refusal. Per-query `hand` fields are left blank for a human checklist.
+
+| Metric | Score | Notes |
+|--------|------:|-------|
+| Retrieval hit (all gold in top-k) | 0.848 | 33 queries with gold rows; misses are mostly image identify/usage |
+| Gold text in LLM context | 0.818 | Truncation or a missed retrieve |
+| Grounded (heuristic) | 1.000 | No invented OOD specs or off-context prices |
+| OOD refusal | 1.000 | All 8 must-refuse items (Galaxy S21, Echo Dot, KitchenAid, Fitbit, AirPods, Nest Mini) |
+
+The LLM follows the grounding prompt well. Remaining quality risk is **image retrieval**, not hallucination of assignment brands. Fill `queries[].hand` in `data/processed/eval_rag.json` for a graded relevant/complete score.
+
+```bash
+python -m src.evaluate_rag --top-k 5
+```
+
+### 5.3 Example interactions
 
 These follow the assignment’s interaction types, using products that **exist** in this catalog.
 
@@ -141,7 +167,8 @@ Text retrieve-only (or RAG) for a name in-catalog, then the UI renders `image_ur
 
 - **Vertex AI Vector Search** (or similar) if the catalog grows beyond a laptop FAISS index.
 - **Full image index:** embed every product photo and support image–image search in addition to image→text.
-- **Better evaluation:** hand-labeled natural-language queries and graded RAG answers (relevant / grounded / ungrounded), not only self-retrieval.
+- **Multimodal fusion** of text + image embeddings when both are present, plus a retrieval score threshold.
+- **Human-graded RAG checklist** in `eval_rag.json` (`hand` fields) and optional LLM-as-judge.
 - **Multi-turn memory** in Streamlit so follow-ups (“which of those is cheapest?”) reuse prior hits.
 - **Rebuild scripts** (`clip_embeddings.py`, `build_faiss.py`) should use `config.py` paths and the shared `ClipEncoder`.
 - **Download more than 100 images** for a less biased image Recall@k sample.

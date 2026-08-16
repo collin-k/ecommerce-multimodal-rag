@@ -16,17 +16,32 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from PIL import Image
 
-from .config import (
-    DEFAULT_TOP_K,
-    IMAGES_DIR,
-    LLM_MODEL,
-    LLM_TEMPERATURE,
-    MAX_CONTEXT_CHARACTERS,
-    PROJECT_ROOT,
-    SYSTEM_INSTRUCTIONS,
-    COMPARISON_FEW_SHOT,
-)
-from .retriever import ProductRetriever, RetrievedProduct
+try:
+    from .config import (
+        DEFAULT_TOP_K,
+        IMAGES_DIR,
+        LLM_MODEL,
+        LLM_TEMPERATURE,
+        MAX_CONTEXT_CHARACTERS,
+        PROJECT_ROOT,
+        SYSTEM_INSTRUCTIONS,
+        COMPARISON_FEW_SHOT,
+    )
+    from .retriever import ProductRetriever, RetrievedProduct
+    from .query_rewriter import rewrite_clip_query
+except ImportError:
+    from config import (
+        DEFAULT_TOP_K,
+        IMAGES_DIR,
+        LLM_MODEL,
+        LLM_TEMPERATURE,
+        MAX_CONTEXT_CHARACTERS,
+        PROJECT_ROOT,
+        SYSTEM_INSTRUCTIONS,
+        COMPARISON_FEW_SHOT,
+    )
+    from retriever import ProductRetriever, RetrievedProduct
+    from query_rewriter import rewrite_clip_query
 
 load_dotenv(PROJECT_ROOT / ".env")
 
@@ -182,8 +197,14 @@ class ProductRagAssistant:
         dict
             Answer text, retrieved products, and prompt metadata.
         """
-        products = self.retriever.search_text(question, top_k=top_k)
-        return self._generate(question, products)
+        products = self.retriever.search_text(
+            question,
+            top_k=top_k,
+            rewrite=True,
+        )
+        result = self._generate(question, products)
+        result["clip_query"] = rewrite_clip_query(question.strip())
+        return result
 
     def answer_image(
         self,

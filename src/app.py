@@ -4,6 +4,9 @@ Streamlit UI for the multimodal e-commerce product chatbot.
 Run from the project root:
 
     streamlit run src/app.py
+
+``.streamlit/config.toml`` disables Streamlit's file watcher so it does
+not probe unused ``transformers`` vision models.
 """
 
 from __future__ import annotations

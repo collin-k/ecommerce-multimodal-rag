@@ -14,12 +14,22 @@ from PIL import Image
 
 # Import torch-backed CLIP before FAISS. Loading FAISS first can segfault on some
 # macOS / conda OpenMP stacks when CLIP is initialized afterward.
-from .clip_encoder import ClipEncoder
-from .config import (
-    DEFAULT_TOP_K,
-    FAISS_INDEX_PATH,
-    PRODUCTS_CSV,
-)
+try:
+    from .clip_encoder import ClipEncoder
+    from .config import (
+        DEFAULT_TOP_K,
+        FAISS_INDEX_PATH,
+        PRODUCTS_CSV,
+    )
+    from .query_rewriter import rewrite_clip_query
+except ImportError:
+    from clip_encoder import ClipEncoder
+    from config import (
+        DEFAULT_TOP_K,
+        FAISS_INDEX_PATH,
+        PRODUCTS_CSV,
+    )
+    from query_rewriter import rewrite_clip_query
 
 
 @dataclass(frozen=True)
@@ -75,6 +85,7 @@ class ProductRetriever:
         self,
         query: str,
         top_k: int = DEFAULT_TOP_K,
+        rewrite: bool = True,
     ) -> List[RetrievedProduct]:
         """
         Retrieve products for a natural-language query.
@@ -85,6 +96,9 @@ class ProductRetriever:
             User text question or product description.
         top_k : int, optional
             Number of products to return.
+        rewrite : bool, optional
+            When True, simplify the question into a short CLIP query
+            (product name / attributes) before embedding.
 
         Returns
         -------
@@ -95,7 +109,8 @@ class ProductRetriever:
         if not clean_query:
             raise ValueError("Query cannot be empty.")
 
-        embedding = self.encoder.encode_texts([clean_query])
+        clip_query = rewrite_clip_query(clean_query) if rewrite else clean_query
+        embedding = self.encoder.encode_texts([clip_query])
         return self._search_embedding(embedding, top_k)
 
     def search_image(

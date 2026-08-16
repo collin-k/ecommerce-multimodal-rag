@@ -8,6 +8,7 @@ import argparse
 from pathlib import Path
 
 from .config import DEFAULT_TOP_K, IMAGES_DIR
+from .query_rewriter import rewrite_clip_query
 from .retriever import ProductRetriever
 
 
@@ -41,6 +42,9 @@ def main() -> None:
     elif args.query.strip():
         results = retriever.search_text(args.query, top_k=args.top_k)
         print(f"Text query: {args.query}")
+        rewritten = rewrite_clip_query(args.query)
+        if rewritten != args.query.strip():
+            print(f"CLIP query: {rewritten}")
     else:
         default_query = "500 piece jigsaw puzzle"
         results = retriever.search_text(default_query, top_k=args.top_k)
