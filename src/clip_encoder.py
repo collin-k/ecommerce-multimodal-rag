@@ -11,7 +11,10 @@ import torch
 from PIL import Image
 from transformers import CLIPModel, CLIPProcessor
 
-from .config import CLIP_MODEL_NAME
+try:
+    from .config import CLIP_MODEL_NAME
+except ImportError:
+    from config import CLIP_MODEL_NAME
 
 
 class ClipEncoder:

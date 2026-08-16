@@ -1,0 +1,777 @@
+{
+  "version": 1,
+  "catalog": "data/processed/clean_products.csv",
+  "description": "Hand-labeled queries for retrieval and RAG evaluation. relevant_indices are 0-based rows in clean_products.csv. Natural-language questions are not exact product-name copies. Image paths are relative to the repo root and require local files data/images/product_{index}.jpg. must_refuse means the assistant should not invent the missing product(s). missing_names lists brands/products that are not gold hits.",
+  "intents": [
+    "features",
+    "compare",
+    "identify",
+    "usage",
+    "show_image",
+    "ood_refuse"
+  ],
+  "n_queries": 41,
+  "queries": [
+    {
+      "id": "nl-01",
+      "intent": "features",
+      "modality": "text",
+      "question": "What are the features of the DB Longboards CoreFlex Crossbow?",
+      "image": null,
+      "relevant_indices": [
+        0
+      ],
+      "relevant_uniq_ids": [
+        "4c69b61db1fc16e7013b43fc926e502d"
+      ],
+      "relevant_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Assignment-style feature question; product is in catalog."
+    },
+    {
+      "id": "nl-02",
+      "intent": "features",
+      "modality": "text",
+      "question": "What flex rating and rider weight is the bamboo CoreFlex longboard built for?",
+      "image": null,
+      "relevant_indices": [
+        0
+      ],
+      "relevant_uniq_ids": [
+        "4c69b61db1fc16e7013b43fc926e502d"
+      ],
+      "relevant_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Paraphrase; should still retrieve the Crossbow, not just any longboard."
+    },
+    {
+      "id": "nl-03",
+      "intent": "features",
+      "modality": "text",
+      "question": "What mini kits are included in the Electronic Snap Circuits classpack?",
+      "image": null,
+      "relevant_indices": [
+        1
+      ],
+      "relevant_uniq_ids": [
+        "66d49bbed043f5be260fa9f7fbff5957"
+      ],
+      "relevant_names": [
+        "Electronic Snap Circuits Mini Kits Classpack, FM Radio, Motion Detector, Music Box (Set of 5)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Science kit; name is distinctive."
+    },
+    {
+      "id": "nl-04",
+      "intent": "features",
+      "modality": "text",
+      "question": "How much filament comes in the 3Doodler Create Flexy refill bundle?",
+      "image": null,
+      "relevant_indices": [
+        2
+      ],
+      "relevant_uniq_ids": [
+        "2c55cae269aebf53838484b0d7dd931a"
+      ],
+      "relevant_names": [
+        "3Doodler Create Flexy 3D Printing Filament Refill Bundle (X5 Pack, Over 1000'. of Extruded Plastics! - Innovate"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Craft kit paraphrase."
+    },
+    {
+      "id": "nl-05",
+      "intent": "features",
+      "modality": "text",
+      "question": "Is the Woodstock collage jigsaw puzzle 500 pieces?",
+      "image": null,
+      "relevant_indices": [
+        4
+      ],
+      "relevant_uniq_ids": [
+        "e04b990e95bf73bbe6a3fa09785d7cd0"
+      ],
+      "relevant_names": [
+        "Woodstock- Collage 500 pc Puzzle"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Puzzle piece-count question."
+    },
+    {
+      "id": "nl-06",
+      "intent": "features",
+      "modality": "text",
+      "question": "Does the child's deluxe Pikachu costume come in extra small?",
+      "image": null,
+      "relevant_indices": [
+        6
+      ],
+      "relevant_uniq_ids": [
+        "40d3cd16b41970ae6872e914aecf2c8e"
+      ],
+      "relevant_names": [
+        "Rubie's Child's Pokemon Deluxe Pikachu Costume, X-Small"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Costume size; avoid retrieving unrelated Pokemon TCG."
+    },
+    {
+      "id": "nl-07",
+      "intent": "features",
+      "modality": "text",
+      "question": "What size is the ARTSCAPE etched glass window film?",
+      "image": null,
+      "relevant_indices": [
+        8
+      ],
+      "relevant_uniq_ids": [
+        "cc2083338a16c3fe2f7895289d2e98fe"
+      ],
+      "relevant_names": [
+        "ARTSCAPE Etched Glass 24\" x 36\" Window Film, 24-by-36-Inch"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Home decor, not toys."
+    },
+    {
+      "id": "nl-08",
+      "intent": "features",
+      "modality": "text",
+      "question": "How many pieces are in the LEGO Minecraft Creeper BigFig and Ocelot set?",
+      "image": null,
+      "relevant_indices": [
+        13
+      ],
+      "relevant_uniq_ids": [
+        "82c86a4d24dce5e14303033d7b658b78"
+      ],
+      "relevant_names": [
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "LEGO Minecraft; should not prefer other LEGO sets."
+    },
+    {
+      "id": "nl-09",
+      "intent": "features",
+      "modality": "text",
+      "question": "What does the Peppa Pig shape sorter clock puzzle teach, and how many pieces is it?",
+      "image": null,
+      "relevant_indices": [
+        24
+      ],
+      "relevant_uniq_ids": [
+        "af983053a35fa2a843092369ff3b400b"
+      ],
+      "relevant_names": [
+        "Peppa Pig Shape Sorter Clock Puzzle (12Piece)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Toddler puzzle, not the Woodstock 500-piece."
+    },
+    {
+      "id": "nl-10",
+      "intent": "features",
+      "modality": "text",
+      "question": "What wheel sizes do the Huffy kids bikes with streamers and BMX pegs come in?",
+      "image": null,
+      "relevant_indices": [
+        25
+      ],
+      "relevant_uniq_ids": [
+        "6d38858169064c8b7069a19c90dd0ae4"
+      ],
+      "relevant_names": [
+        "Huffy Kids Bikes 16 & 20 inch with Streamers and BMX Pegs"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Kids bike; there is also a Disney Princess Huffy."
+    },
+    {
+      "id": "nl-11",
+      "intent": "features",
+      "modality": "text",
+      "question": "What is included in the Melissa & Doug Annie doll and feeding set bundle?",
+      "image": null,
+      "relevant_indices": [
+        57
+      ],
+      "relevant_uniq_ids": [
+        "9ab3556ad20a8d9c1595d298972b2eae"
+      ],
+      "relevant_names": [
+        "Melissa & Doug Annie Doll & Feeding Set Bundle"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Doll bundle."
+    },
+    {
+      "id": "nl-12",
+      "intent": "features",
+      "modality": "text",
+      "question": "Do the Trolls Poppy kids headphones limit volume for safe listening?",
+      "image": null,
+      "relevant_indices": [
+        3641
+      ],
+      "relevant_uniq_ids": [
+        "3ec6e95ddb3455e4dff8514d1c788aca"
+      ],
+      "relevant_names": [
+        "Trolls Poppy Kid Friendly Headphones with Built in Volume Limiting Feature for Kid Friendly Safe Listening"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Electronics; sparse in this toy-heavy catalog."
+    },
+    {
+      "id": "nl-13",
+      "intent": "features",
+      "modality": "text",
+      "question": "How large is the Wildkin kids backpack?",
+      "image": null,
+      "relevant_indices": [
+        265
+      ],
+      "relevant_uniq_ids": [
+        "c2cbb52a1cbbd9cbd15af7e1941b8258"
+      ],
+      "relevant_names": [
+        "Wildkin Kids 17 Inch Backpack"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Luggage, not the Dora costume-with-backpack."
+    },
+    {
+      "id": "nl-14",
+      "intent": "features",
+      "modality": "text",
+      "question": "How many pieces is the LEGO Creator Expert Gingerbread House?",
+      "image": null,
+      "relevant_indices": [
+        195
+      ],
+      "relevant_uniq_ids": [
+        "f8be834ac3d69dd71dcde215b308a38d"
+      ],
+      "relevant_names": [
+        "LEGO Creator Expert Gingerbread House 10267 Building Kit, New 2020 (1,477 Pieces)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Large LEGO set; distinct from Minecraft/Friends kits."
+    },
+    {
+      "id": "nl-15",
+      "intent": "features",
+      "modality": "text",
+      "question": "What is the Guillow airplane design studio building kit used for?",
+      "image": null,
+      "relevant_indices": [
+        3
+      ],
+      "relevant_uniq_ids": [
+        "18018b6bc416dab347b1b7db79994afa"
+      ],
+      "relevant_names": [
+        "Guillow Airplane Design Studio with Travel Case Building Kit"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Model airplane kit."
+    },
+    {
+      "id": "nl-16",
+      "intent": "features",
+      "modality": "text",
+      "question": "Tell me about the DC Cover Girls Black Canary statue by Joelle Jones.",
+      "image": null,
+      "relevant_indices": [
+        11
+      ],
+      "relevant_uniq_ids": [
+        "c5f4c94653a3befd8dd16adf2914c04e"
+      ],
+      "relevant_names": [
+        "DC Cover Girls: Black Canary by Joëlle Jones Statue"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Collectible statue."
+    },
+    {
+      "id": "cmp-01",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Can you compare the DB Longboards CoreFlex Crossbow with the Rayne Demonseed longboard?",
+      "image": null,
+      "relevant_indices": [
+        0,
+        251
+      ],
+      "relevant_uniq_ids": [
+        "4c69b61db1fc16e7013b43fc926e502d",
+        "22bccbee6c18e566f04592da316e3c34"
+      ],
+      "relevant_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete",
+        "Rayne Longboards Demonseed Longboard Complete"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Both longboards are in the catalog."
+    },
+    {
+      "id": "cmp-02",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Compare the Woodstock collage 500 piece puzzle with the Springbok Christmas Wishes 400 piece puzzle.",
+      "image": null,
+      "relevant_indices": [
+        4,
+        29
+      ],
+      "relevant_uniq_ids": [
+        "e04b990e95bf73bbe6a3fa09785d7cd0",
+        "c15e7efbe14b9bbcb8b7fe31f9818021"
+      ],
+      "relevant_names": [
+        "Woodstock- Collage 500 pc Puzzle",
+        "Springbok Puzzles - Christmas Wishes - 400 Piece Jigsaw Puzzle - Large 26.75 Inches by 20.5 Inches Puzzle - Made in USA - Unique Cut Interlocking Pieces - Big Pieces for Kids & Small Pieces for Adults"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Both jigsaw puzzles are in the catalog."
+    },
+    {
+      "id": "cmp-03",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Compare the LEGO Minecraft Creeper BigFig set with the LEGO Friends Heartlake Surf Shop.",
+      "image": null,
+      "relevant_indices": [
+        13,
+        102
+      ],
+      "relevant_uniq_ids": [
+        "82c86a4d24dce5e14303033d7b658b78",
+        "a8dc69040cc0bb452c92cfe9bb57aa1c"
+      ],
+      "relevant_names": [
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)",
+        "LEGO Friends Heartlake Surf Shop 41315 Building Kit (186 Pieces)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Both LEGO sets are in the catalog."
+    },
+    {
+      "id": "cmp-04",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Compare the DB Longboards CoreFlex Crossbow with a Sector 9 longboard.",
+      "image": null,
+      "relevant_indices": [
+        0
+      ],
+      "relevant_uniq_ids": [
+        "4c69b61db1fc16e7013b43fc926e502d"
+      ],
+      "relevant_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete"
+      ],
+      "must_refuse": false,
+      "missing_names": [
+        "Sector 9 longboard"
+      ],
+      "notes": "Sector 9 is mentioned as a similar brand in about-text but is not a catalog product. Cite Crossbow; refuse Sector 9 specs."
+    },
+    {
+      "id": "cmp-05",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Can you compare the Huffy kids bike with streamers to a Trek kids bike?",
+      "image": null,
+      "relevant_indices": [
+        25
+      ],
+      "relevant_uniq_ids": [
+        "6d38858169064c8b7069a19c90dd0ae4"
+      ],
+      "relevant_names": [
+        "Huffy Kids Bikes 16 & 20 inch with Streamers and BMX Pegs"
+      ],
+      "must_refuse": false,
+      "missing_names": [
+        "Trek kids bike"
+      ],
+      "notes": "Huffy is in catalog; Trek is not."
+    },
+    {
+      "id": "cmp-06",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Can you compare the Amazon Echo Dot with the Google Nest Mini?",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "Amazon Echo Dot",
+        "Google Nest Mini"
+      ],
+      "notes": "Assignment example; neither device is in this catalog. Must refuse, not invent specs."
+    },
+    {
+      "id": "img-01",
+      "intent": "identify",
+      "modality": "image",
+      "question": "Can you identify the product in this image and describe its usage?",
+      "image": "data/images/product_0.jpg",
+      "relevant_indices": [
+        0
+      ],
+      "relevant_uniq_ids": [
+        "4c69b61db1fc16e7013b43fc926e502d"
+      ],
+      "relevant_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Assignment-style identify; gold is the CoreFlex longboard (row 0)."
+    },
+    {
+      "id": "img-02",
+      "intent": "usage",
+      "modality": "image",
+      "question": "What is the name of this product, and how do I use it?",
+      "image": "data/images/product_0.jpg",
+      "relevant_indices": [
+        0
+      ],
+      "relevant_uniq_ids": [
+        "4c69b61db1fc16e7013b43fc926e502d"
+      ],
+      "relevant_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Same image, usage phrasing."
+    },
+    {
+      "id": "img-03",
+      "intent": "identify",
+      "modality": "image",
+      "question": "What product is in this photo?",
+      "image": "data/images/product_4.jpg",
+      "relevant_indices": [
+        4
+      ],
+      "relevant_uniq_ids": [
+        "e04b990e95bf73bbe6a3fa09785d7cd0"
+      ],
+      "relevant_names": [
+        "Woodstock- Collage 500 pc Puzzle"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Woodstock 500-piece puzzle image."
+    },
+    {
+      "id": "img-04",
+      "intent": "identify",
+      "modality": "image",
+      "question": "Identify this costume and who it is for.",
+      "image": "data/images/product_6.jpg",
+      "relevant_indices": [
+        6
+      ],
+      "relevant_uniq_ids": [
+        "40d3cd16b41970ae6872e914aecf2c8e"
+      ],
+      "relevant_names": [
+        "Rubie's Child's Pokemon Deluxe Pikachu Costume, X-Small"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Pikachu child costume."
+    },
+    {
+      "id": "img-05",
+      "intent": "identify",
+      "modality": "image",
+      "question": "What LEGO set is shown in this image?",
+      "image": "data/images/product_13.jpg",
+      "relevant_indices": [
+        13
+      ],
+      "relevant_uniq_ids": [
+        "82c86a4d24dce5e14303033d7b658b78"
+      ],
+      "relevant_names": [
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Image plus a text hint; retrieval today ignores the text."
+    },
+    {
+      "id": "img-06",
+      "intent": "usage",
+      "modality": "image",
+      "question": "Identify this bike and tell me what ages or sizes it is for.",
+      "image": "data/images/product_25.jpg",
+      "relevant_indices": [
+        25
+      ],
+      "relevant_uniq_ids": [
+        "6d38858169064c8b7069a19c90dd0ae4"
+      ],
+      "relevant_names": [
+        "Huffy Kids Bikes 16 & 20 inch with Streamers and BMX Pegs"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Huffy kids bike image."
+    },
+    {
+      "id": "img-07",
+      "intent": "identify",
+      "modality": "image",
+      "question": "What science kit is this?",
+      "image": "data/images/product_1.jpg",
+      "relevant_indices": [
+        1
+      ],
+      "relevant_uniq_ids": [
+        "66d49bbed043f5be260fa9f7fbff5957"
+      ],
+      "relevant_names": [
+        "Electronic Snap Circuits Mini Kits Classpack, FM Radio, Motion Detector, Music Box (Set of 5)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "Snap Circuits classpack."
+    },
+    {
+      "id": "img-08",
+      "intent": "identify",
+      "modality": "image",
+      "question": "Can you identify this 3D printing refill pack?",
+      "image": "data/images/product_2.jpg",
+      "relevant_indices": [
+        2
+      ],
+      "relevant_uniq_ids": [
+        "2c55cae269aebf53838484b0d7dd931a"
+      ],
+      "relevant_names": [
+        "3Doodler Create Flexy 3D Printing Filament Refill Bundle (X5 Pack, Over 1000'. of Extruded Plastics! - Innovate"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "3Doodler filament bundle."
+    },
+    {
+      "id": "show-01",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Can you show me a picture of the DB Longboards CoreFlex Crossbow?",
+      "image": null,
+      "relevant_indices": [
+        0
+      ],
+      "relevant_uniq_ids": [
+        "4c69b61db1fc16e7013b43fc926e502d"
+      ],
+      "relevant_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "In-catalog; UI should lead with the product image."
+    },
+    {
+      "id": "show-02",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Show me a picture of the Woodstock collage 500 piece puzzle.",
+      "image": null,
+      "relevant_indices": [
+        4
+      ],
+      "relevant_uniq_ids": [
+        "e04b990e95bf73bbe6a3fa09785d7cd0"
+      ],
+      "relevant_names": [
+        "Woodstock- Collage 500 pc Puzzle"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "In-catalog puzzle."
+    },
+    {
+      "id": "show-03",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Can you show me a picture of the LEGO Minecraft Creeper BigFig set?",
+      "image": null,
+      "relevant_indices": [
+        13
+      ],
+      "relevant_uniq_ids": [
+        "82c86a4d24dce5e14303033d7b658b78"
+      ],
+      "relevant_names": [
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "In-catalog LEGO."
+    },
+    {
+      "id": "show-04",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Show me the child's deluxe Pikachu costume.",
+      "image": null,
+      "relevant_indices": [
+        6
+      ],
+      "relevant_uniq_ids": [
+        "40d3cd16b41970ae6872e914aecf2c8e"
+      ],
+      "relevant_names": [
+        "Rubie's Child's Pokemon Deluxe Pikachu Costume, X-Small"
+      ],
+      "must_refuse": false,
+      "missing_names": [],
+      "notes": "In-catalog costume."
+    },
+    {
+      "id": "show-05",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Can you show me a picture of the Apple AirPods Pro?",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "Apple AirPods Pro"
+      ],
+      "notes": "Assignment example; AirPods Pro are not in this catalog."
+    },
+    {
+      "id": "ood-01",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What are the features of the Samsung Galaxy S21?",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "Samsung Galaxy S21"
+      ],
+      "notes": "Assignment example; not in catalog. Do not invent display/camera/battery specs."
+    },
+    {
+      "id": "ood-02",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What are the features of the Amazon Echo Dot?",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "Amazon Echo Dot"
+      ],
+      "notes": "Smart speaker is not in this toy/sport catalog."
+    },
+    {
+      "id": "ood-03",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "Can you identify this KitchenAid Artisan Stand Mixer and describe its usage?",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "KitchenAid Artisan Stand Mixer"
+      ],
+      "notes": "Assignment image example; mixer is not in catalog. Text-only here (no mixer photo)."
+    },
+    {
+      "id": "ood-04",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What is the name of the Fitbit Charge 4, and how do I use it?",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "Fitbit Charge 4"
+      ],
+      "notes": "Assignment example; fitness tracker not in catalog."
+    },
+    {
+      "id": "ood-05",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What are the features of the Apple AirPods Pro?",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "Apple AirPods Pro"
+      ],
+      "notes": "Assignment example; must not invent ANC/fit specs."
+    },
+    {
+      "id": "ood-06",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "Tell me about the Google Nest Mini.",
+      "image": null,
+      "relevant_indices": [],
+      "relevant_uniq_ids": [],
+      "relevant_names": [],
+      "must_refuse": true,
+      "missing_names": [
+        "Google Nest Mini"
+      ],
+      "notes": "Not in catalog."
+    }
+  ]
+}

@@ -1,0 +1,1867 @@
+{
+  "generated_at": "2026-08-16T03:31:26.063999+00:00",
+  "protocol": "labeled_rag",
+  "model": "gpt-4o-mini",
+  "top_k": 5,
+  "use_llm": true,
+  "queries_path": "data/processed/eval_queries.json",
+  "limitations": "Automatic groundedness is a heuristic: it flags invented missing-product specs and prices not present in retrieved context. It cannot catch every subtle hallucination. Fill the per-query 'hand' fields for the graded scorecard. Out-of-catalog items have no retrieval gold.",
+  "metrics": {
+    "n_queries": 41,
+    "n_with_gold": 33,
+    "n_must_refuse": 8,
+    "n_with_answers": 41,
+    "retrieval_hit": 0.8484848484848485,
+    "gold_in_context": 0.8181818181818182,
+    "grounded": 1.0,
+    "ood_refusal": 1.0,
+    "hand_scores_pending": true
+  },
+  "queries": [
+    {
+      "id": "nl-01",
+      "intent": "features",
+      "modality": "text",
+      "question": "What are the features of the DB Longboards CoreFlex Crossbow?",
+      "must_refuse": false,
+      "answer": "The DB Longboards CoreFlex Crossbow features include:\n\n- **Responsive Flex**: The board has a bamboo core encased in triaxial fiberglass and HD plastic, providing a responsive flex pattern ideal for pumping and carving.\n- **CoreFlex Tech**: This construction is water resistant, impact resistant, scratch resistant, and offers exceptional flex, combining fiberglass, epoxy, HD plastic, and bamboo for performance and strength.\n- **Flex Recommendation**: Flex 2 is recommended for individuals weighing between 120 to 170 pounds.\n- **Design Inspiration**: The board is inspired by the Northwest, focusing on adventure and quality riding experiences.\n- **Brand Mission**: DB aims to create the best custom longboards sustainably and treats customers and employees like family.\n\nFor more details, you can visit the product page [here](https://www.amazon.com/DB-Longboards-CoreFlex-Fiberglass-Longboard/dp/B07KMVJJK7).",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete",
+        "Roces Icon Fitness Inline Skate",
+        "DB Longboards Phase 38\" Maple Drop Through Longboard",
+        "Crossfire",
+        "Flyos Until Daylight"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          0,
+          628,
+          9064,
+          1515,
+          2186
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-02",
+      "intent": "features",
+      "modality": "text",
+      "question": "What flex rating and rider weight is the bamboo CoreFlex longboard built for?",
+      "must_refuse": false,
+      "answer": "The DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete has a recommended flex rating of Flex 2, which is recommended for riders weighing between 120 to 170 pounds.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Moose Bamboo Kicktail/Kryptonics Longboard",
+        "Retrospec Rift Drop-Through Longboard Skateboard Complete",
+        "Rayne Longboards Demonseed Longboard Complete",
+        "Bamboo Skateboards \u2013 Pintail Longboard Tiki Man 44\" x 9.5\" Deck",
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          4868,
+          3059,
+          251,
+          4493,
+          0
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-03",
+      "intent": "features",
+      "modality": "text",
+      "question": "What mini kits are included in the Electronic Snap Circuits classpack?",
+      "must_refuse": false,
+      "answer": "The Electronic Snap Circuits Mini Kits Classpack includes the following mini kits: an FM radio, a motion detector, a music box, space battle sound effects, and a flying saucer.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Snap Circuits Stem Electronics Discovery Kit",
+        "Electronic Snap Circuits Mini Kits Classpack, FM Radio, Motion Detector, Music Box (Set of 5)",
+        "United Scientific CCK001 Create-A-Circuit Kit",
+        "Snap Circuits Pro SC-500 Electronics Exploration Kit | Over 500 Projects | Full Color Project Manual | 75 Parts | STEM Educational Toy for Kids 8+ & Battery Eliminator",
+        "Snap Circuits Jr. Select SC-130 Electronics Exploration Kit | Over 130 Projects | Full Color Project Manual | 30+ Parts | STEM Educational Toys for Kids 8+"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          9558,
+          1,
+          8525,
+          8176,
+          5506
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-04",
+      "intent": "features",
+      "modality": "text",
+      "question": "How much filament comes in the 3Doodler Create Flexy refill bundle?",
+      "must_refuse": false,
+      "answer": "The 3Doodler Create Flexy 3D Printing Filament Refill Bundle includes a total of 1043 feet of filament.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "3Doodler Create Flexy 3D Printing Filament Refill Bundle (X5 Pack, Over 1000'. of Extruded Plastics! - Innovate",
+        "3Doodler Start Product Design Themed Activity Kit (3D Pen Not Included)",
+        "The Greater Debate",
+        "Indie Boards & Cards Grifters Nexus Games",
+        "Improv for Gamers"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          2,
+          2878,
+          6951,
+          4787,
+          4196
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-05",
+      "intent": "features",
+      "modality": "text",
+      "question": "Is the Woodstock collage jigsaw puzzle 500 pieces?",
+      "must_refuse": false,
+      "answer": "Yes, the Woodstock- Collage 500 pc Puzzle has 500 pieces.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Woodstock- Collage 500 pc Puzzle",
+        "MasterPieces Dean Russo Jigsaw Puzzle, Who's a Good Boy? 1000 Pieces",
+        "Americana Souvenirs and Gifts The 50'S Jigsaw Puzzle (750-Piece)",
+        "White Mountain Puzzles Great Paintings - 1000 Piece Jigsaw Puzzle",
+        "The Jigsaw Puzzle Factory Abraham Hunter-Good Old Days Jigsaw Puzzle (1000 Piece), Full-Color"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          4,
+          4872,
+          3895,
+          2732,
+          6004
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-06",
+      "intent": "features",
+      "modality": "text",
+      "question": "Does the child's deluxe Pikachu costume come in extra small?",
+      "must_refuse": false,
+      "answer": "Yes, the Rubie's Child's Pokemon Deluxe Pikachu Costume is available in X-Small.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Rubie's Child's Pokemon Deluxe Pikachu Costume, X-Small",
+        "Disguise Pikachu Pokemon Classic Costume",
+        "-",
+        "Rubies Pretty Bat Girls Child Halloween Creature Costume",
+        "Minion Movie Minion Costume"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          6,
+          8761,
+          2645,
+          4252,
+          9099
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-07",
+      "intent": "features",
+      "modality": "text",
+      "question": "What size is the ARTSCAPE etched glass window film?",
+      "must_refuse": false,
+      "answer": "The ARTSCAPE Etched Glass Window Film measures 24 inches by 36 inches.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "ARTSCAPE Waterlines Window Film",
+        "ARTSCAPE Etched Glass 24\" x 36\" Window Film, 24-by-36-Inch",
+        "Gila 50165292 Decorative Privacy Frosted Glass Film-36 x6.5' Window Film, 36\" x 6.5'",
+        "-",
+        "ARTSCAPE Stella Window Film 24\" x 36\""
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          6322,
+          8,
+          3307,
+          2645,
+          9852
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-08",
+      "intent": "features",
+      "modality": "text",
+      "question": "How many pieces are in the LEGO Minecraft Creeper BigFig and Ocelot set?",
+      "must_refuse": false,
+      "answer": "The LEGO Minecraft Creeper BigFig and Ocelot set contains 184 pieces.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)",
+        "ThinkFun Minecraft Magnetic Travel Puzzle Logic Game & STEM Toy for Kids Ages 8 & Up",
+        "Creative LEGO Brick Set by LEGO Education",
+        "Mattel Games Minecraft Card Game",
+        "LEGO Storage Brick 4, Lime Green"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          13,
+          3399,
+          2286,
+          9250,
+          8991
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-09",
+      "intent": "features",
+      "modality": "text",
+      "question": "What does the Peppa Pig shape sorter clock puzzle teach, and how many pieces is it?",
+      "must_refuse": false,
+      "answer": "The Peppa Pig Shape Sorter Clock Puzzle teaches children how to tell time in a fun and simple way. It consists of 12 die-cut wooden shapes.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Peppa Pig Shape Sorter Clock Puzzle (12Piece)",
+        "Peppa Pig 5 Wood Puzzles in Wooden Storage Box (Styles Will Vary)",
+        "Peppa Pig Little Rooms Dress Up Playset",
+        "Peppa Pig Little Rooms Playdate Fun Playset",
+        "Peppa Pig 4-Figure Carry Case Storage"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          24,
+          8233,
+          7645,
+          7201,
+          1449
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-10",
+      "intent": "features",
+      "modality": "text",
+      "question": "What wheel sizes do the Huffy kids bikes with streamers and BMX pegs come in?",
+      "must_refuse": false,
+      "answer": "The Huffy Kids Bikes with Streamers and BMX Pegs come in 16 inch and 20 inch wheel sizes.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Huffy Kids Bikes 16 & 20 inch with Streamers and BMX Pegs",
+        "-",
+        "Gonge Carousel",
+        "Angeles MyRider Easy Rider",
+        "Wald Universal Training Wheel"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          25,
+          2645,
+          4436,
+          7588,
+          6936
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-11",
+      "intent": "features",
+      "modality": "text",
+      "question": "What is included in the Melissa & Doug Annie doll and feeding set bundle?",
+      "must_refuse": false,
+      "answer": "The context does not provide specific details about what is included in the Melissa & Doug Annie Doll & Feeding Set Bundle. Therefore, I do not have enough information to answer your question.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Melissa & Doug Annie Doll & Feeding Set Bundle",
+        "Value Line Dress Up Storage - Small",
+        "Tune Into Environmental Sounds",
+        "Melissa & Doug Wooden Doll Family (Pretend Play, 7 Pieces, Great Gift for Girls and Boys - Best for 3, 4, 5, 6, and 7 Year Olds)",
+        "Teach My Baby Learning Kit"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          57,
+          3825,
+          3508,
+          5304,
+          5594
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-12",
+      "intent": "features",
+      "modality": "text",
+      "question": "Do the Trolls Poppy kids headphones limit volume for safe listening?",
+      "must_refuse": false,
+      "answer": "Yes, the Trolls Poppy Kid Friendly Headphones come equipped with an adjustable volume limiter to provide a safe and optimal listening experience for kids.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "Trolls Poppy Kid Friendly Headphones with Built in Volume Limiting Feature for Kid Friendly Safe Listening",
+        "Toys and Games-Misc.-SKUPAS904396",
+        "Tune Into Environmental Sounds",
+        "The Greater Debate"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          2645,
+          3641,
+          8822,
+          3508,
+          6951
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-13",
+      "intent": "features",
+      "modality": "text",
+      "question": "How large is the Wildkin kids backpack?",
+      "must_refuse": false,
+      "answer": "I do not have enough information about the size of the Wildkin kids backpack.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "Wildkin Kids Insulated Lunch Box for Boys and Girls, Perfect Size for Packing Hot or Cold Snacks for School and Travel, Patterns Coordinate with Our Backpacks and Duffel Bags, Heroes",
+        "Wildkin Kids Insulated Lunch Box for Boys and Girls, Perfect Size for Packing Hot or Cold Snacks for School and Travel, Patterns Coordinate with Our Backpacks and Duffel Bags, Wild Animals",
+        "Little JJ Cole Backpack for Kids, Robot",
+        "Wildkin Kids 17 Inch Backpack"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          2645,
+          3023,
+          1010,
+          959,
+          265
+        ]
+      },
+      "gold_in_context": false,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-14",
+      "intent": "features",
+      "modality": "text",
+      "question": "How many pieces is the LEGO Creator Expert Gingerbread House?",
+      "must_refuse": false,
+      "answer": "The LEGO Creator Expert Gingerbread House contains 1,477 pieces.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Creative LEGO Brick Set by LEGO Education",
+        "LEGO Creator Expert Gingerbread House 10267 Building Kit, New 2020 (1,477 Pieces)",
+        "Creative LEGO DUPLO Brick Set by LEGO Education",
+        "Plus-Plus BIG - Preschool Construction Building Toy, Open Play Set - 50 Piece - Basic Color Mix",
+        "Plus-Plus BIG - Preschool Construction Building Toy, Open Play Set - 400 Pieces with Storage Tub - Basic Color Mix"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          2286,
+          195,
+          8725,
+          536,
+          3470
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-15",
+      "intent": "features",
+      "modality": "text",
+      "question": "What is the Guillow airplane design studio building kit used for?",
+      "must_refuse": false,
+      "answer": "The Guillow Airplane Design Studio with Travel Case Building Kit is used to make 8 different planes at one time, allowing users to experiment with different designs and learn about flight. It contains parts to build unique flying toy designs and provides hours of fun.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Guillow Airplane Design Studio with Travel Case Building Kit",
+        "American Educational Alternative Energies Teachers Guide",
+        "The Greater Debate",
+        "Improv for Gamers",
+        "-"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          3,
+          7837,
+          6951,
+          4196,
+          2645
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "nl-16",
+      "intent": "features",
+      "modality": "text",
+      "question": "Tell me about the DC Cover Girls Black Canary statue by Joelle Jones.",
+      "must_refuse": false,
+      "answer": "The DC Cover Girls: Black Canary by Jo\u00eblle Jones Statue is a collectible statue designed by Joelle Jones and sculpted by Jack Mathews. It features a Rebirth-era character design of Black Canary, a popular superheroine from the DC universe. The statue is limited to 5,000 pieces and is individually numbered. It measures approximately 9.40 inches tall and weighs 2.01 pounds. The statue is made from Polynesian material and showcases Black Canary in a rock 'n' roll fashion style, complete with a leather jacket and corset. It is recommended for ages 15 and up and is priced at $84.61. \n\nFor more details, you can visit the product page [here](https://www.amazon.com/DC-Cover-Girls-Canary-Jo%C3%ABlle/dp/B07M7XYMRW).",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "DC Cover Girls: Black Canary by Jo\u00eblle Jones Statue",
+        "DC Comics AME-Comi: Black Canary PVC Figure",
+        "DIAMOND SELECT TOYS DC Vinimates: Arrow CW TV Show Arrow Vinimate Vinyl Figure",
+        "DC Collectibles DCTV: Black Lightning Resin Statue",
+        "Marvel Select: Black Widow Action Figure"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          11,
+          6923,
+          1878,
+          64,
+          3805
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "cmp-01",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Can you compare the DB Longboards CoreFlex Crossbow with the Rayne Demonseed longboard?",
+      "must_refuse": false,
+      "answer": "The DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete is priced at $237.68 and features a bamboo core with triaxial fiberglass for a responsive flex pattern, making it ideal for pumping and carving. It is designed for riders weighing between 120 to 170 pounds and emphasizes durability with its water, impact, and scratch-resistant construction.\n\nIn contrast, the Rayne Longboards Demonseed Longboard Complete is priced at $249.95 and is designed for easy riding with a double-drop through mounting and a low platform for stability at any speed. Rayne Longboards focuses on eco-friendly materials and caters to various riding styles, including downhill and freeride.\n\nIn summary, the DB Longboards model emphasizes responsive flex and durability, while the Rayne model highlights stability and eco-friendliness.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete",
+        "Rayne Longboards Demonseed Longboard Complete",
+        "DB Longboards Phase 38\" Maple Drop Through Longboard",
+        "Rayne Longboards Minotaur 34\" Double Kick Cruiser Skateboard",
+        "Moose Bamboo Kicktail/Kryptonics Longboard"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          0,
+          251,
+          9064,
+          5001,
+          4868
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "cmp-02",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Compare the Woodstock collage 500 piece puzzle with the Springbok Christmas Wishes 400 piece puzzle.",
+      "must_refuse": false,
+      "answer": "The Woodstock- Collage 500 pc Puzzle features 500 pieces and measures 14 x 19 inches, priced at $17.49. It is officially licensed merchandise suitable for ages 14 and up.\n\nIn comparison, the Springbok Puzzles - Christmas Wishes - 400 Piece Jigsaw Puzzle has 400 pieces, with a finished size of 26.75 inches by 20.5 inches, and is priced at $14.95. This puzzle is made in the USA and is suitable for ages 36 months to 15 years.\n\nOverall, the Woodstock puzzle has more pieces but a smaller completed size, while the Springbok puzzle has fewer pieces but a larger completed size and is made in the USA.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Woodstock- Collage 500 pc Puzzle",
+        "Springbok Puzzles - Christmas Wishes - 400 Piece Jigsaw Puzzle - Large 26.75 Inches by 20.5 Inches Puzzle - Made in USA - Unique Cut Interlocking Pieces - Big Pieces for Kids & Small Pieces for Adults",
+        "Springbok Puzzles - Americana - 500 Piece Jigsaw Puzzle - Large 18 Inches by 23.5 Inches Puzzle - Made in USA - Unique Cut Interlocking Pieces",
+        "EuroGraphics (EURHR Paris France 1000Piece Puzzle (Panorama) 1000Piece Jigsaw Puzzle",
+        "Tis The Season December 24th Puzzle - 550Piece"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          4,
+          29,
+          1129,
+          3369,
+          8867
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "cmp-03",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Compare the LEGO Minecraft Creeper BigFig set with the LEGO Friends Heartlake Surf Shop.",
+      "must_refuse": false,
+      "answer": "The LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 set includes 184 pieces and features a BigFig Creeper and an Ocelot, designed for kids ages 7 and up. It emphasizes playability with movable limbs and is priced at $14.99.\n\nIn contrast, the LEGO Friends Heartlake Surf Shop 41315 building kit contains 186 pieces and includes a surf shop, a Mia mini-doll figure, and a seal figure, aimed at a similar age group. This set is priced at $19.99.\n\nBoth sets offer unique themes and play experiences, with the Minecraft set focusing on iconic video game characters and the Friends set centered around a beach and surf shop environment.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)",
+        "LEGO Friends Stephanie\u2019s Summer Heart Box 41386 Building Kit, New 2019 (95 Pieces)",
+        "LEGO Friends Heartlake Surf Shop 41315 Building Kit (186 Pieces)",
+        "ThinkFun Minecraft Magnetic Travel Puzzle Logic Game & STEM Toy for Kids Ages 8 & Up",
+        "Creative LEGO Brick Set by LEGO Education"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          13,
+          2019,
+          102,
+          3399,
+          2286
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "cmp-04",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Compare the DB Longboards CoreFlex Crossbow with a Sector 9 longboard.",
+      "must_refuse": false,
+      "answer": "The DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete features a bamboo core with triaxial fiberglass and HD plastic for a responsive flex pattern, making it ideal for pumping and carving. It is designed for riders weighing between 120 to 170 pounds and is priced at $237.68.\n\nI do not have enough information about the specific Sector 9 longboard to make a comparison.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete",
+        "DB Longboards Phase 38\" Maple Drop Through Longboard",
+        "Rayne Longboards Demonseed Longboard Complete",
+        "DB Longboards Contra Drop Deck Maple Longboard Complete",
+        "Retrospec Rift Drop-Through Longboard Skateboard Complete"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          0,
+          9064,
+          251,
+          9695,
+          3059
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": true,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "cmp-05",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Can you compare the Huffy kids bike with streamers to a Trek kids bike?",
+      "must_refuse": false,
+      "answer": "The Huffy Kids Bikes 16 & 20 inch with Streamers and BMX Pegs is available for $74.99 - $249.99 and features streamers and BMX pegs, making it a fun option for kids. However, I do not have enough information about a Trek kids bike to make a comparison.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Huffy Kids Bikes 16 & 20 inch with Streamers and BMX Pegs",
+        "-",
+        "Guardian Kids Bikes Ethos. 16/20/24 Inch, Multiple Colors for Boys/Girls. Safer Brake System for Kids. Lightweight Steel Construction. Easy Assembly. ASO SharkTank.",
+        "Guardian Kids Bikes Ethos. 16/20/24 Inch, Multiple Colors for Boys/Girls. Safer Brake System for Kids. Lightweight Steel Construction. Easy Assembly. ASO SharkTank.",
+        "Guardian Kids Bikes Original. 16/20/24 Inch, Multiple Colors for Boys/Girls. Safer Brake System for Kids. Lightweight Aluminum Construction. Easy Assembly. ASO SharkTank."
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          25,
+          2645,
+          8578,
+          4062,
+          7568
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": true,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "cmp-06",
+      "intent": "compare",
+      "modality": "text",
+      "question": "Can you compare the Amazon Echo Dot with the Google Nest Mini?",
+      "must_refuse": true,
+      "answer": "I do not have enough information to compare the Amazon Echo Dot with the Google Nest Mini.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Tune Into Environmental Sounds",
+        "Qwinto",
+        "-",
+        "The Greater Debate",
+        "Ecos: The First Continent"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          3508,
+          7809,
+          2645,
+          6951,
+          3551
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": true,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-01",
+      "intent": "identify",
+      "modality": "image",
+      "question": "Can you identify the product in this image and describe its usage?",
+      "must_refuse": false,
+      "answer": "I do not have enough information to identify the product in the image.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "MightySkins Skin Compatible with Blitzart Huracane 38\" Electric Skateboard - Bandana | Protective, Durable, and Unique Vinyl Decal wrap Cover | Easy to Apply, Remove | Made in The USA",
+        "Moose Bamboo Kicktail/Kryptonics Longboard",
+        "Powell-Peralta Mini Skull & Sword White Complete Skateboard",
+        "MightySkins Skin Compatible with Blitzart Huracane 38\" Electric Skateboard - Fire Fighter | Protective, Durable, and Unique Vinyl Decal wrap Cover | Easy to Apply, Remove | Made in The USA",
+        "MightySkins Skin Compatible with Boosted Board Mini S - Trooper Storm | Protective, Durable, and Unique Vinyl Decal Wrap Cover | Easy to Apply, Remove, and Change Styles | Made in The USA"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": false,
+        "hit_any": false,
+        "recall": 0.0,
+        "retrieved_indices": [
+          7213,
+          4868,
+          3018,
+          5733,
+          9537
+        ]
+      },
+      "gold_in_context": false,
+      "auto": {
+        "cites_gold_name": false,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-02",
+      "intent": "usage",
+      "modality": "image",
+      "question": "What is the name of this product, and how do I use it?",
+      "must_refuse": false,
+      "answer": "The product is called **MightySkins Skin Compatible with Blitzart Huracane 38\" Electric Skateboard - Bandana**. \n\nTo use it, you simply apply the vinyl decal skin to your Blitzart Huracane 38\" Electric Skateboard. The skin is designed for easy application and removal, thanks to a patented low grip air release adhesive that ensures a precise fit and leaves no sticky residue when removed. It provides durable protection against dings, scrapes, and dust while allowing you to showcase your unique style.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "MightySkins Skin Compatible with Blitzart Huracane 38\" Electric Skateboard - Bandana | Protective, Durable, and Unique Vinyl Decal wrap Cover | Easy to Apply, Remove | Made in The USA",
+        "Moose Bamboo Kicktail/Kryptonics Longboard",
+        "Powell-Peralta Mini Skull & Sword White Complete Skateboard",
+        "MightySkins Skin Compatible with Blitzart Huracane 38\" Electric Skateboard - Fire Fighter | Protective, Durable, and Unique Vinyl Decal wrap Cover | Easy to Apply, Remove | Made in The USA",
+        "MightySkins Skin Compatible with Boosted Board Mini S - Trooper Storm | Protective, Durable, and Unique Vinyl Decal Wrap Cover | Easy to Apply, Remove, and Change Styles | Made in The USA"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": false,
+        "hit_any": false,
+        "recall": 0.0,
+        "retrieved_indices": [
+          7213,
+          4868,
+          3018,
+          5733,
+          9537
+        ]
+      },
+      "gold_in_context": false,
+      "auto": {
+        "cites_gold_name": false,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-03",
+      "intent": "identify",
+      "modality": "image",
+      "question": "What product is in this photo?",
+      "must_refuse": false,
+      "answer": "I do not have enough information to identify the product in the photo.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Woodstock- Collage 500 pc Puzzle",
+        "MasterPieces The Right Fit Kids Jigsaw Puzzle, 101 Things to Spot in the Woods, Tillywig Top Fun Award, 101 Piece, For Age 6+",
+        "Darice Color-In Puzzle - 8.5 x 11 inches, 48 pieces",
+        "EuroGraphics 6000-5488 Weed Wonderland 1000Piece Puzzle",
+        "Edupress Math Noodlers Game, Grades 2-3 (EP62350)"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          4,
+          684,
+          7685,
+          4845,
+          6360
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": false,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-04",
+      "intent": "identify",
+      "modality": "image",
+      "question": "Identify this costume and who it is for.",
+      "must_refuse": false,
+      "answer": "I do not have enough information to identify the costume from the uploaded image. Please provide more details or describe the costume.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Child's Spongebob Squarepants Costume, Medium",
+        "Disguise Pikachu Pokemon Classic Costume",
+        "Rubie's Child's Pokemon Deluxe Pikachu Costume, X-Small",
+        "Rubie's Opus Collection Lil Cuties Banana Baby Costume",
+        "Kids Despicable Me Fluffy Oversized Jumpsuit"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          6771,
+          8761,
+          6,
+          8673,
+          7584
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": false,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-05",
+      "intent": "identify",
+      "modality": "image",
+      "question": "What LEGO set is shown in this image?",
+      "must_refuse": false,
+      "answer": "The closest matching LEGO set is the **LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)**. This set features a BigFig Creeper and an Ocelot, designed for play and decoration, and is suitable for kids ages 7 and up. You can find more details [here](https://www.amazon.com/LEGO-Minecraft-Characters-Buildable-Decoration/dp/B07WG9XJDZ).",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)",
+        "Click n' Play Green Building Brick Baseplates - 5\"x 5\" - (Pack of 4) Tight Fit-Lego Compatible",
+        "Mega Bloks Green Race Car Building Set",
+        "KAWADA Nano Block NBPM\u2011012 Pok\u00e9mon Micro-Sized Building Block Puzzle (220 Pieces)",
+        "LEGO BrickHeadz Halloween Witch 40272 Building Kit (151 Pieces)"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          13,
+          1534,
+          4801,
+          4459,
+          5794
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-06",
+      "intent": "usage",
+      "modality": "image",
+      "question": "Identify this bike and tell me what ages or sizes it is for.",
+      "must_refuse": false,
+      "answer": "I do not have enough information to identify the bike from the uploaded image. Please provide more details or specify the bike you are referring to.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "KENT Tiki Bay Kid's Cruiser Bike, 20\"",
+        "Kent Starshine Bike, 16-Inch",
+        "Magna Spellbound 20\" BMX Bike",
+        "Magna Fallout 20\" BMX Bike With Coaster Brake",
+        "Dynacraft Duzy Customs Kids Bike, 12-14-16-18 inch Wheels, Gift for Boys and Girls"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": false,
+        "hit_any": false,
+        "recall": 0.0,
+        "retrieved_indices": [
+          3937,
+          3782,
+          9431,
+          3953,
+          6774
+        ]
+      },
+      "gold_in_context": false,
+      "auto": {
+        "cites_gold_name": false,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-07",
+      "intent": "identify",
+      "modality": "image",
+      "question": "What science kit is this?",
+      "must_refuse": false,
+      "answer": "The closest matching science kits from the retrieved product context are:\n\n1. **Molymod MMS-015 Elementary Organic Molecular Model Set (30 atom parts)** - This set includes 30 color-coded plastic atom parts and 24 links for demonstrating concepts of organic chemistry. It is priced at $14.90. [View Product](https://www.amazon.com/Molymod-MMS-015-Elementary-Organic-Molecular/dp/B005NWGJJQ)\n\n2. **Super Science Magnet Kit** - This kit contains everything needed to perform various scientific magnet experiments, accompanied by a 24-page color book. The specific price is not listed. [View Product](https://www.amazon.com/Dowling-Magnets-DO-731201-Science-Magnet/dp/B0030E4P2W)\n\n3. **ETA hand2mind, Advanced Molecular Model Kit (41171)** - This kit includes multimedia resources for teaching molecular concepts, priced at $21.80. [View Product](https://www.amazon.com/ETA-hand2mind-Advanced-Molecular-Model/dp/B008ALDP3K)\n\nIf you need more specific information about a particular kit, please provide additional details.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Molymod MMS-015 Elementary Organic Molecular Model Set (30 atom parts)",
+        "Super Science Magnet Kit.",
+        "ETA hand2mind, Advanced Molecular Model Kit, (41171)",
+        "9830 Breadboard-Prototype Design Aid",
+        "Clementoni Crazy Science"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": false,
+        "hit_any": false,
+        "recall": 0.0,
+        "retrieved_indices": [
+          9873,
+          3133,
+          7266,
+          9501,
+          7156
+        ]
+      },
+      "gold_in_context": false,
+      "auto": {
+        "cites_gold_name": false,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "img-08",
+      "intent": "identify",
+      "modality": "image",
+      "question": "Can you identify this 3D printing refill pack?",
+      "must_refuse": false,
+      "answer": "I do not have enough information to identify a 3D printing refill pack based on the provided context.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Kwik Stix Fast-Drying Neon Solid Tempera Paint, 72 Pack, Assorted Neon Colors, 3.5\" (TPG-626)",
+        "Sax Versatemp Heavy-Bodied Tempera Paint, Magenta, 1 Pint",
+        "edx Education School Friendly Playing Cards - Jumbo Size - Set of 56 - Multicolored Patterned Cards Numbered 0-13 for Gameplay - Teach Number Concepts, Counting, Matching and Probability",
+        "Pacon Plastic Art Sheets, Assorted 8 Colors, 11\" x 17\", 8 Sheets",
+        "Pacon PAC6590BN Lightweight Construction Paper Pad, 10 Assorted Colors, 9\" x 12\", 200 Sheets Per Pad, Pack of 3"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": false,
+        "hit_any": false,
+        "recall": 0.0,
+        "retrieved_indices": [
+          2600,
+          8805,
+          248,
+          1973,
+          8945
+        ]
+      },
+      "gold_in_context": false,
+      "auto": {
+        "cites_gold_name": false,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "show-01",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Can you show me a picture of the DB Longboards CoreFlex Crossbow?",
+      "must_refuse": false,
+      "answer": "I do not have enough information to show you a picture of the DB Longboards CoreFlex Crossbow. You can view it on its [Amazon page](https://www.amazon.com/DB-Longboards-CoreFlex-Fiberglass-Longboard/dp/B07KMVJJK7).",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "DB Longboards CoreFlex Crossbow 41\" Bamboo Fiberglass Longboard Complete",
+        "-",
+        "Crossfire",
+        "Flyos Until Daylight",
+        "The Greater Debate"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          0,
+          2645,
+          1515,
+          2186,
+          6951
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "show-02",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Show me a picture of the Woodstock collage 500 piece puzzle.",
+      "must_refuse": false,
+      "answer": "I do not have enough information to show you a picture of the Woodstock Collage 500 pc Puzzle. You can view it on its [Amazon page](https://www.amazon.com/Woodstock-Collage-500-pc-Puzzle/dp/B07MX21WWX).",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Woodstock- Collage 500 pc Puzzle",
+        "MasterPieces Dean Russo Jigsaw Puzzle, Who's a Good Boy? 1000 Pieces",
+        "Ceaco Perfect Piece Count Puzzle - Jane Wooster Scott - Waterfront Artistry",
+        "Americana Souvenirs and Gifts The 50'S Jigsaw Puzzle (750-Piece)",
+        "Ravensburger 17004 German Tourists - 3000 Piece Puzzle for Adults, Every Piece is Unique, Softclick Technology Means Pieces Fit Together Perfectly"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          4,
+          4872,
+          4836,
+          3895,
+          5359
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "show-03",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Can you show me a picture of the LEGO Minecraft Creeper BigFig set?",
+      "must_refuse": false,
+      "answer": "I do not have enough information to show you a picture of the LEGO Minecraft Creeper BigFig set. You can view it on its product page [here](https://www.amazon.com/LEGO-Minecraft-Characters-Buildable-Decoration/dp/B07WG9XJDZ).",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "Creative LEGO Brick Set by LEGO Education",
+        "LEGO Minecraft Creeper BigFig and Ocelot Characters 21156 Buildable Toy Minecraft Figure Gift Set for Play and Decoration, New 2020 (184 Pieces)",
+        "Mattel Games Minecraft Card Game",
+        "ThinkFun Minecraft Magnetic Travel Puzzle Logic Game & STEM Toy for Kids Ages 8 & Up",
+        "The Unofficial Gamer's Adventure Series Box Set: Six Thrilling Stories for Minecrafters"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          2286,
+          13,
+          9250,
+          3399,
+          1542
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "show-04",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Show me the child's deluxe Pikachu costume.",
+      "must_refuse": false,
+      "answer": "The child's deluxe Pikachu costume is the **Rubie's Child's Pokemon Deluxe Pikachu Costume, X-Small**. You can find it [here](https://www.amazon.com/Rubies-Deluxe-Pikachu-Pokemon-Costume/dp/B07BZJM592). The selling price is $29.12, and it features a fleece jumpsuit with an attached tail and headpiece with ears and a printed face. It is officially licensed and recommended for ages 12 months to 2 years.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "Rubie's Child's Pokemon Deluxe Pikachu Costume, X-Small",
+        "Disguise Pikachu Pokemon Classic Costume",
+        "Rubies Pretty Bat Girls Child Halloween Creature Costume",
+        "Party Pictures Game"
+      ],
+      "retrieval": {
+        "applicable": true,
+        "hit_all": true,
+        "hit_any": true,
+        "recall": 1.0,
+        "retrieved_indices": [
+          2645,
+          6,
+          8761,
+          4252,
+          8137
+        ]
+      },
+      "gold_in_context": true,
+      "auto": {
+        "cites_gold_name": true,
+        "mentions_missing_name": false,
+        "looks_like_refusal": false,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": null
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "show-05",
+      "intent": "show_image",
+      "modality": "text",
+      "question": "Can you show me a picture of the Apple AirPods Pro?",
+      "must_refuse": true,
+      "answer": "I do not have enough information to provide a picture of the Apple AirPods Pro.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "Party Pictures Game",
+        "The Greater Debate",
+        "Toys and Games-Misc.-SKUPAS904396",
+        "The Networks: Executives Expansion"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          2645,
+          8137,
+          6951,
+          8822,
+          6750
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": true,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "ood-01",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What are the features of the Samsung Galaxy S21?",
+      "must_refuse": true,
+      "answer": "I do not have enough information.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "Indie Boards & Cards Grifters Nexus Games",
+        "The Greater Debate",
+        "Mobile Teacher Workstation",
+        "Improv for Gamers"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          2645,
+          4787,
+          6951,
+          4568,
+          4196
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "ood-02",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What are the features of the Amazon Echo Dot?",
+      "must_refuse": true,
+      "answer": "I do not have enough information.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "The Greater Debate",
+        "-",
+        "Tune Into Environmental Sounds",
+        "Improv for Gamers",
+        "Indie Boards & Cards Grifters Nexus Games"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          6951,
+          2645,
+          3508,
+          4196,
+          4787
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "ood-03",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "Can you identify this KitchenAid Artisan Stand Mixer and describe its usage?",
+      "must_refuse": true,
+      "answer": "I do not have enough information to identify or describe the KitchenAid Artisan Stand Mixer.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "Handle punch, 85mm",
+        "The Greater Debate",
+        "Party Pictures Game",
+        "AP Products (013-164922 30.25\" Table Support"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          2645,
+          8813,
+          6951,
+          8137,
+          9195
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": true,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "ood-04",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What is the name of the Fitbit Charge 4, and how do I use it?",
+      "must_refuse": true,
+      "answer": "I do not have enough information.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "The Greater Debate",
+        "Flyos Until Daylight",
+        "Improv for Gamers",
+        "Indie Boards & Cards Grifters Nexus Games"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          2645,
+          6951,
+          2186,
+          4196,
+          4787
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": false,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "ood-05",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "What are the features of the Apple AirPods Pro?",
+      "must_refuse": true,
+      "answer": "I do not have enough information about the Apple AirPods Pro.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "The Greater Debate",
+        "DJI FPV Air Unit",
+        "Improv for Gamers",
+        "Qwinto"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          2645,
+          6951,
+          1250,
+          4196,
+          7809
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": true,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    },
+    {
+      "id": "ood-06",
+      "intent": "ood_refuse",
+      "modality": "text",
+      "question": "Tell me about the Google Nest Mini.",
+      "must_refuse": true,
+      "answer": "I do not have enough information about the Google Nest Mini.",
+      "model": "gpt-4o-mini",
+      "retrieved_names": [
+        "-",
+        "The Greater Debate",
+        "Qwinto",
+        "Indie Boards & Cards Grifters Nexus Games",
+        "Sportime BallRackTroughs"
+      ],
+      "retrieval": {
+        "applicable": false,
+        "hit_all": null,
+        "hit_any": null,
+        "recall": null,
+        "retrieved_indices": [
+          2645,
+          6951,
+          7809,
+          4787,
+          7169
+        ]
+      },
+      "gold_in_context": null,
+      "auto": {
+        "cites_gold_name": null,
+        "mentions_missing_name": true,
+        "looks_like_refusal": true,
+        "invented_prices": false,
+        "grounded": true,
+        "ood_refused": true
+      },
+      "hand": {
+        "relevant": null,
+        "grounded": null,
+        "complete": null,
+        "refused_ood": null,
+        "notes": ""
+      }
+    }
+  ]
+}
