@@ -82,8 +82,8 @@ User (text and/or image)
 | `src/query_rewriter.py` | CLIP query rewrite (product name / attributes) |
 | `src/rag.py` | Grounded generation + CLI |
 | `src/app.py` | Streamlit chatbot |
-| `src/evaluate_retrieval.py` | Recall@1/5/10 (self, image, labeled NL) |
-| `src/evaluate_rag.py` | RAG scorecard: retrieval hit, grounded, OOD refusal |
+| `eval/evaluate_retrieval.py` | Recall@1/5/10 (self, image, labeled NL) |
+| `eval/evaluate_rag.py` | RAG scorecard: retrieval hit, grounded, OOD refusal |
 
 On some macOS/conda OpenMP stacks, importing FAISS before loading CLIP segfaults. The retriever constructs CLIP first, then imports FAISS. Evaluation searches **one query vector at a time** for the same reason (batch `index.search` was unstable).
 
@@ -95,7 +95,7 @@ Protocol (seed 42, top-k = 10 unless noted):
 
 - **Text self-retrieval:** sample 100 products; query = `Product Name`; relevant item = same row. Optimistic upper bound.
 - **Image→product:** 100 local files `product_{i}.jpg`; relevant item = row `i`. CLIP image query vs text index.
-- **Labeled NL text:** 25 hand-written questions in `data/processed/eval_queries.json` (not exact product names). Out-of-catalog items are excluded because there is no gold row. Comparison questions with two gold products score the fraction of those products in the top-k.
+- **Labeled NL text:** 25 hand-written questions in `eval/eval_queries.json` (not exact product names). Out-of-catalog items are excluded because there is no gold row. Comparison questions with two gold products score the fraction of those products in the top-k.
 
 | Protocol | Queries | Recall@1 | Recall@5 | Recall@10 |
 |----------|---------|----------|----------|-----------|
@@ -111,13 +111,13 @@ By intent after rewrite: features R@1 0.812 (n=16), show-image R@1 1.000 (n=4), 
 Reproduce:
 
 ```bash
-python -m src.evaluate_retrieval --sample-size 100 --top-k 10
-python -m src.evaluate_retrieval --labeled-only --top-k 10
+python -m eval.evaluate_retrieval --sample-size 100 --top-k 10
+python -m eval.evaluate_retrieval --labeled-only --top-k 10
 ```
 
 ### 5.2 RAG scorecard
 
-`src/evaluate_rag.py` runs the assistant on all 41 labeled queries (top-k = 5, matching the app) and scores retrieval hit, a conservative groundedness heuristic, and out-of-catalog refusal. Per-query `hand` fields are left blank for a human checklist.
+`eval/evaluate_rag.py` runs the assistant on all 41 labeled queries (top-k = 5, matching the app) and scores retrieval hit, a conservative groundedness heuristic, and out-of-catalog refusal. Per-query `hand` fields are left blank for a human checklist.
 
 | Metric | Score | Notes |
 |--------|------:|-------|
@@ -126,10 +126,10 @@ python -m src.evaluate_retrieval --labeled-only --top-k 10
 | Grounded (heuristic) | 1.000 | No invented OOD specs or off-context prices |
 | OOD refusal | 1.000 | All 8 must-refuse items (Galaxy S21, Echo Dot, KitchenAid, Fitbit, AirPods, Nest Mini) |
 
-The LLM follows the grounding prompt well. Remaining quality risk is **image retrieval**, not hallucination of assignment brands. Fill `queries[].hand` in `data/processed/eval_rag.json` for a graded relevant/complete score.
+The LLM follows the grounding prompt well. Remaining quality risk is **image retrieval**, not hallucination of assignment brands. Fill `queries[].hand` in `eval/eval_rag.json` for a graded relevant/complete score.
 
 ```bash
-python -m src.evaluate_rag --top-k 5
+python -m eval.evaluate_rag --top-k 5
 ```
 
 ### 5.3 Example interactions

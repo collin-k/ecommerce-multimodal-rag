@@ -17,6 +17,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 IMAGES_DIR = DATA_DIR / "images"
+EVAL_DIR = PROJECT_ROOT / "eval"
 
 
 def _path_from_env(variable: str, default: Path) -> Path:
@@ -50,15 +51,15 @@ FAISS_INDEX_PATH = PROCESSED_DIR / "products_faiss.index"
 IMAGE_EMBEDDINGS_PATH = PROCESSED_DIR / "test_image_embeddings.npy"
 EVAL_QUERIES_PATH = _path_from_env(
     "EVAL_QUERIES_PATH",
-    PROCESSED_DIR / "eval_queries.json",
+    EVAL_DIR / "eval_queries.json",
 )
 EVAL_RECALL_PATH = _path_from_env(
     "EVAL_RECALL_PATH",
-    PROCESSED_DIR / "eval_recall.json",
+    EVAL_DIR / "eval_recall.json",
 )
 EVAL_RAG_PATH = _path_from_env(
     "EVAL_RAG_PATH",
-    PROCESSED_DIR / "eval_rag.json",
+    EVAL_DIR / "eval_rag.json",
 )
 
 DEFAULT_IMAGE_DOWNLOAD_LIMIT = 100

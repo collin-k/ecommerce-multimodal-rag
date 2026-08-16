@@ -13,8 +13,8 @@ labeled catalog rows are retrieved.
 
 Run from the repository root:
 
-    python -m src.evaluate_retrieval --sample-size 100 --top-k 10
-    python -m src.evaluate_retrieval --labeled-only --top-k 10
+    python -m eval.evaluate_retrieval --sample-size 100 --top-k 10
+    python -m eval.evaluate_retrieval --labeled-only --top-k 10
 """
 
 from __future__ import annotations
@@ -27,9 +27,9 @@ from pathlib import Path
 from typing import Dict, List, Sequence
 
 # Import CLIP-backed retriever before NumPy/FAISS-heavy use on macOS conda.
-from .retriever import ProductRetriever
-from .config import EVAL_QUERIES_PATH, EVAL_RECALL_PATH, IMAGES_DIR, PROJECT_ROOT
-from .query_rewriter import rewrite_clip_query
+from src.retriever import ProductRetriever
+from src.config import EVAL_QUERIES_PATH, EVAL_RECALL_PATH, IMAGES_DIR, PROJECT_ROOT
+from src.query_rewriter import rewrite_clip_query
 
 RECALL_CUTOFFS = (1, 5, 10)
 
