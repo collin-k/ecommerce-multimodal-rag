@@ -27,7 +27,7 @@ try:
         SYSTEM_INSTRUCTIONS,
         COMPARISON_FEW_SHOT,
     )
-    from .retriever import ProductRetriever, RetrievedProduct
+    from .retriever import ProductRetriever, RetrievedProduct, strip_amazon_boilerplate
     from .query_rewriter import rewrite_clip_query
 except ImportError:
     from config import (
@@ -40,7 +40,7 @@ except ImportError:
         SYSTEM_INSTRUCTIONS,
         COMPARISON_FEW_SHOT,
     )
-    from retriever import ProductRetriever, RetrievedProduct
+    from retriever import ProductRetriever, RetrievedProduct, strip_amazon_boilerplate
     from query_rewriter import rewrite_clip_query
 
 load_dotenv(PROJECT_ROOT / ".env")
@@ -91,7 +91,7 @@ def format_product_context(products: List[RetrievedProduct]) -> str:
             f"[Product {product.rank} | score={product.score:.3f}]\n"
             f"Name: {product.product_name}\n"
             f"URL: {product.product_url}\n"
-            f"Details:\n{product.combined_text}"
+            f"Details:\n{strip_amazon_boilerplate(product.combined_text)}"
         )
 
     return "\n\n".join(sections)[:MAX_CONTEXT_CHARACTERS]

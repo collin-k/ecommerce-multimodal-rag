@@ -4,6 +4,7 @@ Product catalog loading and multimodal FAISS retrieval.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional, Union
@@ -11,6 +12,32 @@ from typing import List, Optional, Union
 import numpy as np
 import pandas as pd
 from PIL import Image
+
+_AMAZON_FIT_DISCLAIMER = re.compile(
+    r"Make sure this fits by entering your model number\.?\s*",
+    re.IGNORECASE,
+)
+_ABOUT_LEADING_PIPE = re.compile(r"(About Product:\s*)\|+\s*")
+
+
+def strip_amazon_boilerplate(text: str) -> str:
+    """
+    Remove Amazon's model-number fit disclaimer from catalog copy.
+
+    Parameters
+    ----------
+    text : str
+        Raw ``combined_text`` or an about-product snippet.
+
+    Returns
+    -------
+    str
+        Text with the disclaimer and leftover leading pipes removed.
+    """
+    cleaned = _AMAZON_FIT_DISCLAIMER.sub("", text)
+    cleaned = _ABOUT_LEADING_PIPE.sub(r"\1", cleaned)
+    cleaned = re.sub(r"^\s*\|\s*", "", cleaned.strip())
+    return re.sub(r"[ \t]{2,}", " ", cleaned).strip()
 
 # Import torch-backed CLIP before FAISS. Loading FAISS first can segfault on some
 # macOS / conda OpenMP stacks when CLIP is initialized afterward.
@@ -181,7 +208,9 @@ class ProductRetriever:
                     score=float(score),
                     uniq_id=str(row["Uniq Id"]),
                     product_name=str(row["Product Name"]),
-                    combined_text=str(row.get("combined_text", "")),
+                    combined_text=strip_amazon_boilerplate(
+                        str(row.get("combined_text", ""))
+                    ),
                     image_url=str(row.get("Image", "")).split("|")[0],
                     product_url=str(row.get("Product Url", "")),
                 )
