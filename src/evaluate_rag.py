@@ -667,7 +667,7 @@ def evaluate_rag(
         "model": model_name,
         "top_k": top_k,
         "use_llm": use_llm,
-        "queries_path": "data/processed/eval_queries.json",
+        "queries_path": str(queries_path),
         "limitations": LIMITATIONS,
         "metrics": summarize_scorecard(rows),
         "queries": rows,

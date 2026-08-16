@@ -28,10 +28,9 @@ from typing import Dict, List, Sequence
 
 # Import CLIP-backed retriever before NumPy/FAISS-heavy use on macOS conda.
 from .retriever import ProductRetriever
-from .config import EVAL_QUERIES_PATH, IMAGES_DIR, PROCESSED_DIR, PROJECT_ROOT
+from .config import EVAL_QUERIES_PATH, EVAL_RECALL_PATH, IMAGES_DIR, PROJECT_ROOT
 from .query_rewriter import rewrite_clip_query
 
-EVAL_RESULTS_PATH = PROCESSED_DIR / "eval_recall.json"
 RECALL_CUTOFFS = (1, 5, 10)
 
 LIMITATIONS = (
@@ -142,7 +141,7 @@ def load_eval_queries(path: Path = EVAL_QUERIES_PATH) -> List[Dict[str, object]]
     if not path.is_file():
         raise FileNotFoundError(
             f"Labeled eval queries not found: {path}. "
-            "Expected data/processed/eval_queries.json."
+            f"Set EVAL_QUERIES_PATH or pass --eval-queries."
         )
 
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -517,7 +516,7 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=str,
-        default=str(EVAL_RESULTS_PATH),
+        default=str(EVAL_RECALL_PATH),
         help="JSON path for saved metrics.",
     )
     args = parser.parse_args()
