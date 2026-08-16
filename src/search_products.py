@@ -30,7 +30,6 @@ def main() -> None:
     if args.image:
         image_path = Path(args.image)
         if not image_path.is_file():
-            # Allow paths relative to the canonical images directory.
             fallback = IMAGES_DIR / args.image
             image_path = fallback if fallback.is_file() else image_path
 

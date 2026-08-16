@@ -153,7 +153,6 @@ def download_product_images(
 
     for row_index in row_indices:
         if row_index < 0 or row_index >= len(products):
-            print(f"Skipped product {row_index}: index out of range")
             failed += 1
             continue
 
@@ -161,12 +160,10 @@ def download_product_images(
         if destination.exists():
             saved_paths.append(destination)
             skipped += 1
-            print(f"Skipped {destination.name} (already exists)")
             continue
 
         image_url = first_image_url(products.iloc[int(row_index)].get("Image", ""))
         if not image_url:
-            print(f"Failed product {row_index}: missing image URL")
             failed += 1
             continue
 
@@ -178,7 +175,6 @@ def download_product_images(
                 max_retries=max_retries,
             )
             saved_paths.append(destination)
-            print(f"Saved {destination.name}")
         except Exception as error:
             failed += 1
             print(f"Failed product {row_index}: {error}")

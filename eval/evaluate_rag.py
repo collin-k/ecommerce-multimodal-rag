@@ -634,20 +634,16 @@ def evaluate_rag(
     if max_queries is not None:
         queries = queries[: max(0, max_queries)]
 
-    print("Loading retriever...")
     retriever = ProductRetriever()
     assistant: Optional[ProductRagAssistant] = None
     model_name = None
     if use_llm:
         require_api_key()
-        print("Loading RAG assistant...")
         assistant = ProductRagAssistant(retriever=retriever)
         model_name = assistant.model_name
 
     rows: List[Dict[str, Any]] = []
     for index, query in enumerate(queries, start=1):
-        query_id = query.get("id", index)
-        print(f"[{index}/{len(queries)}] {query_id}")
         try:
             result = _answer_query(
                 assistant,
@@ -657,7 +653,7 @@ def evaluate_rag(
                 use_llm=use_llm,
             )
         except FileNotFoundError as error:
-            print(f"  skipped: {error}")
+            print(f"Skipped {query.get('id', index)}: {error}")
             continue
         rows.append(evaluate_one_query(query, result))
 

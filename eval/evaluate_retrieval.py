@@ -526,7 +526,6 @@ def main() -> None:
             f"--top-k must be at least {max(RECALL_CUTOFFS)} to report Recall@10."
         )
 
-    print("Loading retriever...")
     retriever = ProductRetriever()
     output_path = Path(args.output)
     payload: Dict[str, object] = {}
@@ -538,7 +537,6 @@ def main() -> None:
     payload["limitations"] = LIMITATIONS
 
     if not args.labeled_only:
-        print(f"Evaluating text self-retrieval on {args.sample_size} products...")
         text_result = evaluate_text_self_retrieval(
             retriever,
             sample_size=args.sample_size,
@@ -550,9 +548,6 @@ def main() -> None:
 
         image_paths = list(IMAGES_DIR.glob("product_*.jpg"))
         if image_paths:
-            print(
-                f"Evaluating image-to-product retrieval on {len(image_paths)} images..."
-            )
             image_result = evaluate_image_to_product(
                 retriever,
                 top_k=args.top_k,
@@ -564,7 +559,6 @@ def main() -> None:
 
     if not args.skip_labeled:
         queries_path = Path(args.eval_queries)
-        print(f"Evaluating labeled NL queries from {queries_path}...")
         labeled_result = evaluate_labeled_text_retrieval(
             retriever,
             queries_path=queries_path,

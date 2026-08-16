@@ -11,7 +11,4 @@ index = faiss.IndexFlatIP(dimension)
 index.add(embeddings)
 
 faiss.write_index(index, "data/processed/products_faiss.index")
-
-print("FAISS index created successfully!")
-print("Number of vectors:", index.ntotal)
-print("Embedding dimension:", dimension)
+print(f"Wrote data/processed/products_faiss.index ({index.ntotal} x {dimension})")
