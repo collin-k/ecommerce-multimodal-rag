@@ -35,9 +35,10 @@ RECALL_CUTOFFS = (1, 5, 10)
 
 LIMITATIONS = (
     "Limitations: text self-retrieval is an optimistic upper bound because "
-    "the query is the product name itself. Image evaluation uses locally "
-    "downloaded files (often the first N catalog rows), so the image set "
-    "may be biased. Labeled NL recall uses hand-written questions with "
+    "the query is the product name itself. Image evaluation searches the "
+    "local photo FAISS index (downloaded JPEGs, often the first N catalog "
+    "rows), so it is image self-retrieval on that set and may be biased. "
+    "Labeled NL recall uses hand-written questions with "
     "in-catalog gold rows; out-of-catalog refusal items are excluded "
     "because there is no relevant product to retrieve."
 )
@@ -388,6 +389,7 @@ def evaluate_image_to_product(
     Measure whether a product image retrieves its matching catalog row.
 
     Expects files named ``product_{index}.jpg`` under ``images_dir``.
+    Queries the product-photo FAISS index used by ``search_image``.
 
     Parameters
     ----------
@@ -409,7 +411,7 @@ def evaluate_image_to_product(
     if not image_paths:
         raise FileNotFoundError(
             f"No product_*.jpg files found in {images_dir}. "
-            "Run: python -m src.image_downloader --limit 100"
+            "Run: python -m src.image_downloader"
         )
 
     row_indices: List[int] = []
@@ -424,10 +426,15 @@ def evaluate_image_to_product(
 
     embeddings = retriever.encoder.encode_images(images)
     ranks = []
-    for row, embedding in enumerate(embeddings):
+    for gold_row, embedding in zip(row_indices, embeddings):
         query_vector = embedding.reshape(1, -1).astype("float32")
-        _, retrieved = retriever.index.search(query_vector, top_k)
-        ranks.append(_rank_of_hit(retrieved[0], row_indices[row], top_k))
+        hits = retriever._search_embedding(
+            query_vector,
+            top_k,
+            retriever.image_index,
+            retriever.image_row_indices,
+        )
+        ranks.append(_rank_of_hit([item.index for item in hits], gold_row, top_k))
     metrics = recall_at_k(ranks, cutoffs=RECALL_CUTOFFS)
     return {
         "protocol": "image_to_product",

@@ -48,7 +48,8 @@ def _path_from_env(variable: str, default: Path) -> Path:
 PRODUCTS_CSV = PROCESSED_DIR / "clean_products.csv"
 TEXT_EMBEDDINGS_PATH = PROCESSED_DIR / "text_embeddings.npy"
 FAISS_INDEX_PATH = PROCESSED_DIR / "products_faiss.index"
-IMAGE_EMBEDDINGS_PATH = PROCESSED_DIR / "test_image_embeddings.npy"
+IMAGE_EMBEDDINGS_PATH = PROCESSED_DIR / "image_embeddings.npy"
+IMAGE_ROW_INDICES_PATH = PROCESSED_DIR / "image_row_indices.npy"
 EVAL_QUERIES_PATH = _path_from_env(
     "EVAL_QUERIES_PATH",
     EVAL_DIR / "eval_queries.json",
@@ -62,9 +63,10 @@ EVAL_RAG_PATH = _path_from_env(
     EVAL_DIR / "eval_rag.json",
 )
 
-DEFAULT_IMAGE_DOWNLOAD_LIMIT = 100
+DEFAULT_IMAGE_DOWNLOAD_LIMIT = None
 DOWNLOAD_TIMEOUT_SECONDS = 10
 DOWNLOAD_MAX_RETRIES = 3
+DOWNLOAD_WORKERS = 8
 
 CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"
 CLIP_EMBEDDING_DIM = 512
