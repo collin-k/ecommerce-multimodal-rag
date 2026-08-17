@@ -1,42 +1,127 @@
 import numpy as np
 import faiss
 from PIL import Image
-import torch
-from transformers import CLIPModel, CLIPProcessor
+import pandas as pd
 
-image_embeddings = np.load(
-    "data/processed/test_image_embeddings.npy"
-).astype("float32")
+from .clip_embeddings import ClipEncoder
 
-faiss.normalize_L2(image_embeddings)
 
-index = faiss.IndexFlatIP(512)
-index.add(image_embeddings)
-
-model_name = "openai/clip-vit-base-patch32"
-model = CLIPModel.from_pretrained(model_name)
-processor = CLIPProcessor.from_pretrained(model_name)
-
-query_image = Image.open(
-    "data/images/product_0.jpg"
-).convert("RGB")
-
-inputs = processor(
-    images=query_image,
-    return_tensors="pt"
+# Load product data
+df = pd.read_csv(
+    "data/processed/clean_products.csv"
 )
 
-with torch.no_grad():
-    query_embedding = model.get_image_features(**inputs)
 
-query_embedding = query_embedding.cpu().numpy().astype("float32")
+# Load image embeddings created earlier
+image_embeddings = np.load(
+    "data/processed/image_embeddings.npy"
+).astype("float32")
 
+
+# Load mapping:
+# FAISS position -> original dataframe row
+row_indices = np.load(
+    "data/processed/image_row_indices.npy"
+)
+
+
+print("Image embeddings shape:", image_embeddings.shape)
+print("Row mappings:", len(row_indices))
+
+
+# Normalize stored embeddings
+faiss.normalize_L2(image_embeddings)
+
+
+# Build FAISS index
+dimension = image_embeddings.shape[1]
+
+index = faiss.IndexFlatIP(dimension)
+
+index.add(image_embeddings)
+
+
+# Load CLIP encoder
+encoder = ClipEncoder()
+
+
+# Query image
+query_image_path = "data/images/product_0.jpg"
+
+query_image = Image.open(
+    query_image_path
+).convert("RGB")
+
+
+# Generate query embedding
+query_embedding = encoder.encode_images(
+    [query_image]
+).astype("float32")
+
+
+# Normalize query embedding
 faiss.normalize_L2(query_embedding)
 
-scores, indices = index.search(query_embedding, 5)
 
-print("Top matches:")
-print(indices[0])
+# Search
+top_k = 5
 
-print("Similarity scores:")
-print(scores[0])
+scores, indices = index.search(
+    query_embedding,
+    top_k
+)
+
+
+print("\nQuery image:")
+print(query_image_path)
+
+print("\nTop matches:")
+
+
+for rank, faiss_idx in enumerate(indices[0]):
+
+    # Map FAISS position back
+    # to original dataframe row
+    original_row_idx = int(
+        row_indices[faiss_idx]
+    )
+
+    product = df.iloc[
+        original_row_idx
+    ]
+
+    print("\n------------------------")
+    print("Rank:", rank + 1)
+
+    print(
+        "FAISS position:",
+        faiss_idx
+    )
+
+    print(
+        "Original product row:",
+        original_row_idx
+    )
+
+    print(
+        "Similarity score:",
+        float(scores[0][rank])
+    )
+
+    if "Product Name" in df.columns:
+        print(
+            "Product:",
+            product["Product Name"]
+        )
+
+    if "Category" in df.columns:
+        print(
+            "Category:",
+            product["Category"]
+        )
+
+    if "Selling Price" in df.columns:
+        print(
+            "Price:",
+            product["Selling Price"]
+        )

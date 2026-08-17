@@ -40,6 +40,59 @@ def strip_amazon_boilerplate(text: str) -> str:
     return re.sub(r"[ \t]{2,}", " ", cleaned).strip()
 
 
+def _load_image_index(
+    embeddings_path: Path,
+    row_indices_path: Path,
+    n_products: int,
+):
+    """
+    Build an in-memory FAISS index from saved product-image embeddings.
+
+    Parameters
+    ----------
+    embeddings_path : Path
+        ``.npy`` matrix of CLIP image vectors.
+    row_indices_path : Path
+        Catalog row for each embedding row.
+    n_products : int
+        Number of rows in the product table.
+
+    Returns
+    -------
+    tuple
+        Image FAISS index and integer catalog-row mapping.
+
+    Raises
+    ------
+    FileNotFoundError
+        If either artifact is missing.
+    ValueError
+        If shapes or row ids are inconsistent.
+    """
+    import faiss
+
+    if not embeddings_path.is_file() or not row_indices_path.is_file():
+        raise FileNotFoundError(
+            "Image FAISS artifacts not found. Run: python -m src.image_embeddings"
+        )
+
+    embeddings = np.load(embeddings_path).astype("float32")
+    faiss.normalize_L2(embeddings)
+    image_index = faiss.IndexFlatIP(embeddings.shape[1])
+    image_index.add(embeddings)
+    row_map = np.load(row_indices_path).astype(int)
+
+    if len(row_map) != image_index.ntotal:
+        raise ValueError(
+            f"Image row map ({len(row_map)}) does not match "
+            f"image FAISS vectors ({image_index.ntotal})."
+        )
+    if np.any(row_map < 0) or np.any(row_map >= n_products):
+        raise ValueError("Image row map contains catalog indexes outside the table.")
+
+    return image_index, row_map
+
+
 # Import torch-backed CLIP before FAISS. Loading FAISS first can segfault on some
 # macOS / conda OpenMP stacks when CLIP is initialized afterward.
 try:
@@ -47,6 +100,8 @@ try:
     from .config import (
         DEFAULT_TOP_K,
         FAISS_INDEX_PATH,
+        IMAGE_EMBEDDINGS_PATH,
+        IMAGE_ROW_INDICES_PATH,
         PRODUCTS_CSV,
     )
     from .query_rewriter import rewrite_clip_query
@@ -55,6 +110,8 @@ except ImportError:
     from config import (
         DEFAULT_TOP_K,
         FAISS_INDEX_PATH,
+        IMAGE_EMBEDDINGS_PATH,
+        IMAGE_ROW_INDICES_PATH,
         PRODUCTS_CSV,
     )
     from query_rewriter import rewrite_clip_query
@@ -81,10 +138,12 @@ class ProductRetriever:
         self,
         products_csv: Path = PRODUCTS_CSV,
         faiss_index_path: Path = FAISS_INDEX_PATH,
+        image_embeddings_path: Path = IMAGE_EMBEDDINGS_PATH,
+        image_row_indices_path: Path = IMAGE_ROW_INDICES_PATH,
         encoder: Optional[ClipEncoder] = None,
     ) -> None:
         """
-        Load the product table, FAISS index, and CLIP encoder.
+        Load the product table, FAISS indexes, and CLIP encoder.
 
         Parameters
         ----------
@@ -92,14 +151,24 @@ class ProductRetriever:
             Cleaned product catalog CSV.
         faiss_index_path : Path, optional
             FAISS index built from CLIP text embeddings.
+        image_embeddings_path : Path, optional
+            CLIP embeddings for downloaded product photos.
+        image_row_indices_path : Path, optional
+            Catalog row for each vector in the image index.
         encoder : ClipEncoder or None, optional
             Shared CLIP encoder. Created on demand when omitted.
         """
         self.encoder = encoder or ClipEncoder()
         import faiss
 
+        faiss.omp_set_num_threads(1)
         self.products = pd.read_csv(products_csv)
         self.index = faiss.read_index(str(faiss_index_path))
+        self.image_index, self.image_row_indices = _load_image_index(
+            embeddings_path=image_embeddings_path,
+            row_indices_path=image_row_indices_path,
+            n_products=len(self.products),
+        )
 
         if len(self.products) != self.index.ntotal:
             raise ValueError(
@@ -137,7 +206,7 @@ class ProductRetriever:
 
         clip_query = rewrite_clip_query(clean_query) if rewrite else clean_query
         embedding = self.encoder.encode_texts([clip_query])
-        return self._search_embedding(embedding, top_k)
+        return self._search_embedding(embedding, top_k, self.index)
 
     def search_image(
         self,
@@ -147,8 +216,8 @@ class ProductRetriever:
         """
         Retrieve products for an uploaded product image.
 
-        CLIP maps images and text into one space, so an image query can search
-        the text-product FAISS index directly.
+        Searches the product-photo FAISS index (downloaded JPEGs), not the
+        text-product index.
 
         Parameters
         ----------
@@ -167,12 +236,19 @@ class ProductRetriever:
         else:
             embedding = self.encoder.encode_image_path(str(image))
 
-        return self._search_embedding(embedding, top_k)
+        return self._search_embedding(
+            embedding,
+            top_k,
+            self.image_index,
+            self.image_row_indices,
+        )
 
     def _search_embedding(
         self,
         embedding: np.ndarray,
         top_k: int,
+        index,
+        row_map: Optional[np.ndarray] = None,
     ) -> List[RetrievedProduct]:
         """
         Run FAISS search for one query embedding.
@@ -183,27 +259,37 @@ class ProductRetriever:
             Shape (1, dim) L2-normalized query vector.
         top_k : int
             Number of neighbors to retrieve.
+        index
+            FAISS index to search.
+        row_map : ndarray or None, optional
+            Maps FAISS ids to catalog rows. Identity when omitted.
 
         Returns
         -------
         list of RetrievedProduct
             Ranked product hits.
         """
-        scores, indices = self.index.search(embedding.astype("float32"), top_k)
+        depth = min(top_k, index.ntotal)
+        scores, indices = index.search(embedding.astype("float32"), depth)
         results: List[RetrievedProduct] = []
 
-        for rank, (score, row_index) in enumerate(
+        for rank, (score, faiss_id) in enumerate(
             zip(scores[0], indices[0]),
             start=1,
         ):
-            if row_index < 0:
+            if faiss_id < 0:
                 continue
 
-            row = self.products.iloc[int(row_index)]
+            row_index = (
+                int(row_map[int(faiss_id)])
+                if row_map is not None
+                else int(faiss_id)
+            )
+            row = self.products.iloc[row_index]
             results.append(
                 RetrievedProduct(
                     rank=rank,
-                    index=int(row_index),
+                    index=row_index,
                     score=float(score),
                     uniq_id=str(row["Uniq Id"]),
                     product_name=str(row["Product Name"]),

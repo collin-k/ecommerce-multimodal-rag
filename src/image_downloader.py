@@ -6,9 +6,10 @@ from __future__ import annotations
 
 import argparse
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from io import BytesIO
 from pathlib import Path
-from typing import Iterable, List, Optional, Sequence, Tuple
+from typing import List, Optional, Sequence, Tuple
 
 import pandas as pd
 import requests
@@ -18,6 +19,7 @@ from .config import (
     DEFAULT_IMAGE_DOWNLOAD_LIMIT,
     DOWNLOAD_MAX_RETRIES,
     DOWNLOAD_TIMEOUT_SECONDS,
+    DOWNLOAD_WORKERS,
     IMAGES_DIR,
     PRODUCTS_CSV,
 )
@@ -26,6 +28,28 @@ USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 )
+
+
+MAX_URLS_PER_PRODUCT = 3
+
+
+def image_urls(image_field: object) -> List[str]:
+    """
+    Split a pipe-separated Image column into URL strings.
+
+    Parameters
+    ----------
+    image_field : object
+        Raw Image field that may contain multiple URLs.
+
+    Returns
+    -------
+    list of str
+        Non-empty URLs in catalog order.
+    """
+    if not isinstance(image_field, str) or not image_field.strip():
+        return []
+    return [part.strip() for part in image_field.split("|") if part.strip()]
 
 
 def first_image_url(image_field: object) -> str:
@@ -42,9 +66,8 @@ def first_image_url(image_field: object) -> str:
     str
         First URL, or an empty string when missing.
     """
-    if not isinstance(image_field, str) or not image_field.strip():
-        return ""
-    return image_field.split("|")[0].strip()
+    urls = image_urls(image_field)
+    return urls[0] if urls else ""
 
 
 def parse_indices(raw_indices: str) -> List[int]:
@@ -107,6 +130,61 @@ def _download_one_image(
     raise RuntimeError(str(last_error))
 
 
+def _download_row(
+    products: pd.DataFrame,
+    row_index: int,
+    output_dir: Path,
+    timeout_seconds: int,
+    max_retries: int,
+) -> Tuple[str, Optional[Path], str]:
+    """
+    Download one catalog row's primary photo, trying fallback URLs.
+
+    Parameters
+    ----------
+    products : pandas.DataFrame
+        Cleaned catalog.
+    row_index : int
+        Catalog row to fetch.
+    output_dir : Path
+        Directory for ``product_{index}.jpg``.
+    timeout_seconds : int
+        HTTP timeout per attempt.
+    max_retries : int
+        Attempts per URL.
+
+    Returns
+    -------
+    tuple
+        Status (``saved``, ``skipped``, or ``failed``), destination path
+        when present, and an error message on failure.
+    """
+    if row_index < 0 or row_index >= len(products):
+        return "failed", None, f"row {row_index} out of range"
+
+    destination = output_dir / f"product_{int(row_index)}.jpg"
+    if destination.exists():
+        return "skipped", destination, ""
+
+    urls = image_urls(products.iloc[int(row_index)].get("Image", ""))[:MAX_URLS_PER_PRODUCT]
+    if not urls:
+        return "failed", None, "no image URL"
+
+    last_error = "download failed"
+    for image_url in urls:
+        try:
+            _download_one_image(
+                image_url=image_url,
+                destination=destination,
+                timeout_seconds=timeout_seconds,
+                max_retries=max_retries,
+            )
+            return "saved", destination, ""
+        except Exception as error:
+            last_error = str(error)
+    return "failed", None, last_error
+
+
 def download_product_images(
     products_csv: Path = PRODUCTS_CSV,
     output_dir: Path = IMAGES_DIR,
@@ -114,6 +192,7 @@ def download_product_images(
     indices: Optional[Sequence[int]] = None,
     timeout_seconds: int = DOWNLOAD_TIMEOUT_SECONDS,
     max_retries: int = DOWNLOAD_MAX_RETRIES,
+    workers: int = DOWNLOAD_WORKERS,
 ) -> Tuple[List[Path], int, int]:
     """
     Download product images and save them as ``product_{index}.jpg``.
@@ -126,12 +205,15 @@ def download_product_images(
         Directory for downloaded JPEG files.
     limit : int or None, optional
         Download the first ``limit`` rows when ``indices`` is omitted.
+        ``None`` downloads the entire catalog.
     indices : sequence of int or None, optional
         Explicit row indices to download.
     timeout_seconds : int, optional
         HTTP timeout per image request.
     max_retries : int, optional
         Retry count for failed downloads.
+    workers : int, optional
+        Parallel download threads.
 
     Returns
     -------
@@ -143,41 +225,46 @@ def download_product_images(
 
     if indices is None:
         row_count = len(products) if limit is None else min(limit, len(products))
-        row_indices: Iterable[int] = range(row_count)
+        row_indices = list(range(row_count))
     else:
-        row_indices = indices
+        row_indices = list(indices)
 
     saved_paths: List[Path] = []
     skipped = 0
     failed = 0
+    total = len(row_indices)
+    worker_count = max(1, workers)
 
-    for row_index in row_indices:
-        if row_index < 0 or row_index >= len(products):
-            failed += 1
-            continue
-
-        destination = output_dir / f"product_{int(row_index)}.jpg"
-        if destination.exists():
-            saved_paths.append(destination)
-            skipped += 1
-            continue
-
-        image_url = first_image_url(products.iloc[int(row_index)].get("Image", ""))
-        if not image_url:
-            failed += 1
-            continue
-
-        try:
-            _download_one_image(
-                image_url=image_url,
-                destination=destination,
-                timeout_seconds=timeout_seconds,
-                max_retries=max_retries,
+    with ThreadPoolExecutor(max_workers=worker_count) as pool:
+        futures = [
+            pool.submit(
+                _download_row,
+                products,
+                row_index,
+                output_dir,
+                timeout_seconds,
+                max_retries,
             )
-            saved_paths.append(destination)
-        except Exception as error:
-            failed += 1
-            print(f"Failed product {row_index}: {error}")
+            for row_index in row_indices
+        ]
+        for done, future in enumerate(as_completed(futures), start=1):
+            status, path, error = future.result()
+            if status == "skipped" and path is not None:
+                saved_paths.append(path)
+                skipped += 1
+            elif status == "saved" and path is not None:
+                saved_paths.append(path)
+            else:
+                failed += 1
+                if failed <= 10 and error:
+                    print(f"Failed product: {error}")
+            if done % 100 == 0 or done == total:
+                print(
+                    f"Progress {done}/{total} "
+                    f"saved_or_present={len(saved_paths)} "
+                    f"skipped_existing={skipped} failed={failed}",
+                    flush=True,
+                )
 
     return saved_paths, skipped, failed
 
@@ -191,7 +278,7 @@ def main() -> None:
         "--limit",
         type=int,
         default=DEFAULT_IMAGE_DOWNLOAD_LIMIT,
-        help="Number of leading catalog rows to download (ignored with --indices).",
+        help="Leading catalog rows to download. Default: entire catalog.",
     )
     parser.add_argument(
         "--indices",
@@ -205,6 +292,12 @@ def main() -> None:
         default=DOWNLOAD_TIMEOUT_SECONDS,
         help="HTTP timeout in seconds per request.",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=DOWNLOAD_WORKERS,
+        help="Parallel download threads.",
+    )
     args = parser.parse_args()
 
     selected_indices = parse_indices(args.indices) if args.indices else None
@@ -212,6 +305,7 @@ def main() -> None:
         limit=None if selected_indices is not None else args.limit,
         indices=selected_indices,
         timeout_seconds=args.timeout,
+        workers=args.workers,
     )
 
     print(
