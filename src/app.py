@@ -21,11 +21,11 @@ from PIL import Image
 
 try:
     from .config import DEFAULT_TOP_K, IMAGES_DIR
-    from .rag import ProductRagAssistant, require_api_key
+    from .rag import ProductRagAssistant, is_show_image_question, require_api_key
     from .retriever import ProductRetriever, RetrievedProduct, strip_amazon_boilerplate
 except ImportError:
     from config import DEFAULT_TOP_K, IMAGES_DIR
-    from rag import ProductRagAssistant, require_api_key
+    from rag import ProductRagAssistant, is_show_image_question, require_api_key
     from retriever import ProductRetriever, RetrievedProduct, strip_amazon_boilerplate
 
 SUGGESTED_PROMPTS = (
@@ -61,7 +61,7 @@ st.set_page_config(
 )
 
 
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner="Loading the product catalog…")
 def load_retriever() -> ProductRetriever:
     """
     Load the shared product retriever once per session.
@@ -74,7 +74,7 @@ def load_retriever() -> ProductRetriever:
     return ProductRetriever()
 
 
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner="Starting the assistant…")
 def load_assistant() -> ProductRagAssistant:
     """
     Load the RAG assistant once per session.
@@ -159,33 +159,6 @@ def product_blurb(product: RetrievedProduct, limit: int = 160) -> str:
     if len(text) <= limit:
         return text
     return text[: limit - 1].rsplit(" ", 1)[0] + "…"
-
-
-def is_show_image_question(question: str) -> bool:
-    """
-    Return whether the user asked to see a product picture.
-
-    Parameters
-    ----------
-    question : str
-        User message.
-
-    Returns
-    -------
-    bool
-        True for show-me-a-picture style requests.
-    """
-    lowered = question.lower()
-    return any(
-        phrase in lowered
-        for phrase in (
-            "show me a picture",
-            "show me the",
-            "picture of",
-            "photo of",
-            "image of",
-        )
-    )
 
 
 def product_image_source(product: RetrievedProduct) -> Optional[str]:
@@ -438,7 +411,7 @@ def answer_turn(
     try:
         require_api_key()
         assistant = load_assistant()
-    except Exception:
+    except Exception as error:
         return {
             "role": "assistant",
             "text": (
@@ -448,18 +421,41 @@ def answer_turn(
             ),
             "products": [],
             "lead_with_image": False,
+            "error": str(error),
         }
 
-    with st.spinner("Writing an answer…"):
-        if image is not None:
-            result = assistant.answer_image(prompt, image, top_k=top_k)
-        else:
-            result = assistant.answer_text(prompt, top_k=top_k)
+    try:
+        with st.spinner("Writing an answer…"):
+            if image is not None:
+                result = assistant.answer_image(prompt, image, top_k=top_k)
+            else:
+                result = assistant.answer_text(prompt, top_k=top_k)
+    except Exception as error:
+        return {
+            "role": "assistant",
+            "text": (
+                "The language model did not return an answer. "
+                f"{error}"
+            ),
+            "products": [],
+            "lead_with_image": False,
+        }
+
+    answer = str(result.get("answer") or "").strip()
+    products = list(result.get("products") or [])
+    if not answer and products:
+        top = products[0]
+        answer = (
+            f"The closest catalog match is {top.product_name}. "
+            "Here are the retrieved products."
+        )
+    if not answer:
+        answer = "I could not find a matching product in this catalog."
 
     return {
         "role": "assistant",
-        "text": result["answer"],
-        "products": result["products"],
+        "text": answer,
+        "products": products,
         "lead_with_image": is_show_image_question(prompt),
     }
 
@@ -522,14 +518,21 @@ def main() -> None:
             )
 
     typed = st.chat_input("Ask about a product…")
+    uploaded = settings["uploaded"]
     prompt = (typed or st.session_state.queued_prompt or "").strip()
     st.session_state.queued_prompt = ""
+    upload_id = None
+    if uploaded is not None:
+        upload_id = f"{uploaded.name}:{int(uploaded.size)}"
+        if not prompt and upload_id != st.session_state.get("last_image_id"):
+            prompt = "Identify the product in this image and describe how it is used."
     if not prompt:
         return
+    if upload_id is not None:
+        st.session_state.last_image_id = upload_id
 
     image = None
     image_bytes = None
-    uploaded = settings["uploaded"]
     if uploaded is not None:
         image_bytes = uploaded.getvalue()
         image = Image.open(BytesIO(image_bytes)).convert("RGB")
@@ -545,12 +548,12 @@ def main() -> None:
                 top_k=int(settings["top_k"]),
                 retrieve_only=bool(settings["retrieve_only"]),
             )
-    except Exception:
+    except Exception as error:
         assistant_message = {
             "role": "assistant",
             "text": (
                 "Something went wrong while searching the catalog. "
-                "Try a shorter question, or use Retrieve only in the sidebar."
+                f"{error}"
             ),
             "products": [],
             "lead_with_image": False,

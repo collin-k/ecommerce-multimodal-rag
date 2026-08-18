@@ -26,6 +26,8 @@ try:
         PROJECT_ROOT,
         SYSTEM_INSTRUCTIONS,
         COMPARISON_FEW_SHOT,
+        IMAGE_IDENTIFY_INSTRUCTIONS,
+        SHOW_IMAGE_INSTRUCTIONS,
     )
     from .retriever import ProductRetriever, RetrievedProduct, strip_amazon_boilerplate
     from .query_rewriter import rewrite_clip_query
@@ -39,6 +41,8 @@ except ImportError:
         PROJECT_ROOT,
         SYSTEM_INSTRUCTIONS,
         COMPARISON_FEW_SHOT,
+        IMAGE_IDENTIFY_INSTRUCTIONS,
+        SHOW_IMAGE_INSTRUCTIONS,
     )
     from retriever import ProductRetriever, RetrievedProduct, strip_amazon_boilerplate
     from query_rewriter import rewrite_clip_query
@@ -97,6 +101,33 @@ def format_product_context(products: List[RetrievedProduct]) -> str:
     return "\n\n".join(sections)[:MAX_CONTEXT_CHARACTERS]
 
 
+def is_show_image_question(question: str) -> bool:
+    """
+    Return whether the user asked to see a product picture.
+
+    Parameters
+    ----------
+    question : str
+        User message.
+
+    Returns
+    -------
+    bool
+        True for show-me-a-picture style requests.
+    """
+    lowered = question.lower()
+    return any(
+        phrase in lowered
+        for phrase in (
+            "show me a picture",
+            "show me the",
+            "picture of",
+            "photo of",
+            "image of",
+        )
+    )
+
+
 def is_comparison_question(question: str) -> bool:
     """
     Detect comparison-style questions that benefit from few-shot guidance.
@@ -134,6 +165,8 @@ def build_user_prompt(question: str, context: str) -> str:
     parts = [f"Retrieved product context:\n{context}"]
     if is_comparison_question(question):
         parts.append(COMPARISON_FEW_SHOT)
+    if is_show_image_question(question):
+        parts.append(SHOW_IMAGE_INSTRUCTIONS)
     parts.append(f"User question:\n{question.strip()}")
     return "\n\n".join(parts)
 
@@ -165,7 +198,7 @@ class ProductRagAssistant:
         if client is None:
             api_key = require_api_key()
             base_url = (os.getenv("OPENAI_BASE_URL") or "").strip() or None
-            self.client = OpenAI(api_key=api_key, base_url=base_url)
+            self.client = OpenAI(api_key=api_key, base_url=base_url, timeout=60.0)
         else:
             self.client = client
 
@@ -231,9 +264,7 @@ class ProductRagAssistant:
         """
         products = self.retriever.search_image(image, top_k=top_k)
         grounded_question = (
-            f"{question.strip()}\n\n"
-            "The user uploaded a product image. Identify the closest matching "
-            "catalog products and answer using that context."
+            f"{question.strip()}\n\n{IMAGE_IDENTIFY_INSTRUCTIONS}"
         )
         return self._generate(grounded_question, products)
 
